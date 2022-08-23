@@ -1,13 +1,346 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Boogaloo&display=swap");
+
+:root {
+  --main-bg-color: #181a1b;
+  --main-color: #ffffff;
+}
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+}
+body {
+  -webkit-tap-highlight-color: transparent;
+
+  margin: 0;
+  color: white;
+  font-family: "Boogaloo", cursive;
+
+  background-color: #1e2127;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/************Login Styles ****************/
+.login-form {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url("./media/23.jpg");
+  background-size: cover;
+}
+.login-container {
+  margin-top: 10vh;
+}
+
+.form {
+  width: 440px;
+  height: 440px;
+
+  border-radius: 5px;
+  box-shadow: 0 0 20px -10px #000;
+  margin: auto;
+  padding: 20px 30px;
+  max-width: calc(100vw - 40px);
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0);
+}
+.btn-register {
+  text-align: center;
+}
+.btn-register > button {
+  font-weight: bold;
+  color: white;
+  width: 90%;
+  margin: 20px;
+  border: none;
+  height: 40px;
+  border-radius: 4px;
+  background: linear-gradient(
+    250deg,
+    rgba(34, 201, 237, 1) 19%,
+    rgba(8, 152, 225, 1) 75%
+  );
+}
+
+input {
+  margin-bottom: 50px;
+  color: rgb(255, 255, 255);
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  background: none;
+  outline: none;
+  resize: none;
+  border: 0;
+  font-family: "Montserrat", sans-serif;
+  transition: all 0.3s;
+  border-bottom: 2px solid #fcfcfc;
+}
+input:focus {
+  border-bottom: 2px solid #0cd57e;
+}
+::placeholder {
+  color: rgb(255, 255, 255);
+}
+.parrafo:before {
+  content: attr(type);
+  display: block;
+  margin: 15px 0 0;
+  font-size: 14px;
+  color: #3399ff;
+}
+.btn-form {
+  float: right;
+  padding: 8px 12px;
+  margin: 8px 0 0;
+  font-family: "Montserrat", sans-serif;
+  border: 2px solid #78788c;
+  background: 0;
+  color: #3399ff;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 5px;
+}
+
+/****MENU******/
+.welcome-text {
+  text-align: center;
+}
+
+.container-menu {
+  display: flex;
+  flex-wrap: wrap;
+  width: 200px;
+  margin: auto;
+
+  vertical-align: baseline;
+  padding: 80px;
+}
+.container-menu > div {
+  cursor: pointer;
+
+  flex: 40%;
+  text-align: center;
+}
+
+.container-data-menu-option {
+  padding: 10px;
+}
+.square-background {
+  backdrop-filter: blur(10px);
+
+  background-color: rgba(0, 0, 0, 0.4);
+  margin: 4px;
+  width: 90px;
+  border-radius: 9px;
+
+  /*filter: blur(3px);*/
+}
+.container-img-menu {
+  margin: auto;
+
+  background: linear-gradient(
+    332deg,
+    #2396f0 0%,
+    rgba(77, 77, 185, 1) 49%,
+    #8ad0fc 100%
+  );
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+}
+.container-img-menu2 {
+  margin: auto;
+
+  background: linear-gradient(332deg, #fc924d 0%, #9c4205 49%, #fec19b 100%);
+
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+}
+.img-learning-section {
+  margin-top: 5px;
+  width: 39px;
+}
+.container-name-section {
+  margin-top: 10px;
+}
+.bg-menu {
+  height: 100vh;
+  background-image: url("/home/yair/Escritorio/FullStack/duolingoDjango/duolingo-react/src/media/bg3.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+.link {
+  color: aliceblue;
+  text-decoration: none;
+}
+
+/*******************card styles***********/
+
+.container-card {
+  width: 100vw;
+  display: flex;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.card {
+  margin: auto;
+
+  border-radius: 6px;
+  overflow: hidden;
+  background: #292929;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+  transition: all 400ms ease-out;
+  cursor: pointer;
+  margin-top: 25vh;
+  text-align: center;
+}
+.card:hover {
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3%);
+}
+.card img {
+  /* width: 80%; */
+  height: 210px;
+}
+.card .contenido-card {
+  text-align: center;
+  padding: 10px;
+}
+.card .contenido-card h3 {
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+/*************exercises styles****************/
+
+.exercises-container {
+  text-align: center;
+}
+
+.container-answers {
+  margin: auto;
+  width: 95vw;
+}
+.answer {
+  box-shadow: 0 2px #373c3e;
+  height: 45px;
+  color: var(--main-color);
+  background-color: var(--main-bg-color);
+  margin: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 95%;
+  border: none;
+}
+
+.answer-selected {
+  border: none;
+  width: 95%;
+  cursor: pointer;
+
+  box-shadow: 0 2px #2c90bf;
+  height: 45px;
+  color: #0cb2ff;
+  background-color: #003047;
+  margin: 10px;
+  border-radius: 12px;
+}
+
+button:active {
+  box-shadow: 0 0.5px;
+  transform: translateY(2px);
+}
+
+.btn-check {
+  position: fixed;
+
+  bottom: 25px;
+  width: 100%;
+
+  text-align: center;
+}
+.btn-check2 {
+  border: none;
+  color: white;
+  box-shadow: 0 0 21px 0px rgba(0, 0, 0, 0.3);
+  width: 95%;
+  height: 50px;
+  border-radius: 20px;
+}
+
+/*********listening styles********/
+
+audio::-webkit-media-controls-mute-button {
+  background-color: #ffffffbb;
+  border-radius: 50%;
+}
+audio::-webkit-media-controls-seek-back-button {
+  background-color: #2f3436;
+  border-radius: 2px;
+}
+
+audio::-webkit-media-controls-current-time-display {
+  color: white;
+}
+audio::-webkit-media-controls-volume-slider-container {
+  background-color: #003047;
+}
+audio::-webkit-media-controls-time-remaining-display {
+  color: white;
+}
+::-webkit-slider-thumb:hover {
+  background-color: #0cb2ff;
+}
+audio::-webkit-media-controls-enclosure {
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+audio::-webkit-media-controls-play-button {
+  border-radius: 50%;
+
+  background-color: rgba(255, 255, 255, 0.687);
+}
+
+@keyframes animatedBackground {
+  0% {
+    backgoutransform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.5, 1.5);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+.container-audio {
+  overflow: hidden;
+}
+.player {
+  height: 100vh;
+  width: 100vw;
+  z-index: 999;
+  position: absolute;
+  bottom: 55px;
+}
+.bg-img {
+  animation: animatedBackground infinite 30s linear;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("./media/audio-bg/colina.jpg");
+
+  background-size: cover;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+  .card {
+    margin-top: 25%;
+  }
 }
