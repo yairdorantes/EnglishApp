@@ -1,10 +1,9 @@
 import LoginPage from "./components/LoginPage";
-import Routers from "./router/Routers";
+import Routers from "../src/router/Routers";
 function App() {
   return (
     <>
-      <LoginPage></LoginPage>
-      {/* <Routers /> */}
+      <Routers></Routers>
     </>
   );
 }

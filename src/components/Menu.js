@@ -50,14 +50,16 @@ const Menu = () => {
           </div>
 
           <div>
-            <div className="square-background">
-              <div className="container-data-menu-option">
-                <div className="container-img-menu">
-                  <img className="img-learning-section" src={video} alt="" />
+            <Link to="/shorts" className="link">
+              <div className="square-background">
+                <div className="container-data-menu-option">
+                  <div className="container-img-menu">
+                    <img className="img-learning-section" src={video} alt="" />
+                  </div>
+                  <div className="container-name-section">Videos</div>
                 </div>
-                <div className="container-name-section">Videos</div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>

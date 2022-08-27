@@ -1,4 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { helpHttp } from "../helpers/helpHttp";
+let url = "http://127.0.0.1:8000/api/users/";
+var md5 = require("md5");
 
 const initialForm = {
   name: "",
@@ -7,7 +12,34 @@ const initialForm = {
 };
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const [db, setDb] = useState([]);
   const [form, setForm] = useState(initialForm);
+  const [registered, setRegistered] = useState(false);
+
+  const createData = (data) => {
+    let options = {
+      body: data,
+      headers: { "content-type": "application/json" },
+    };
+
+    // data.id = Date.now();
+
+    helpHttp()
+      .post(url, options)
+      .then((res) => {
+        console.log(res);
+
+        if (!res.err) {
+          setDb([...db, res]);
+          //   setLoading(false);
+        } else {
+          console.log(res);
+          // setError(res);
+        }
+      });
+  };
 
   const handleChange = (e) => {
     setForm({
@@ -20,7 +52,13 @@ const LoginPage = () => {
     if (!form.name || !form.email || !form.password) {
       alert("Please enter your email and password");
       return;
+    } else {
+      setRegistered(true);
+
+      navigate("/menu");
     }
+    setForm((form["password"] = md5(form["password"])));
+    createData(form);
     handleReset();
   };
 
