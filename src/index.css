@@ -212,11 +212,26 @@ input:focus {
   text-align: center;
   padding: 10px;
 }
+.contenido-card > img {
+  height: 15px;
+  float: left;
+  margin-top: 5px;
+}
+
 .card .contenido-card h3 {
   margin-bottom: 10px;
+  width: 30%;
+  margin: auto;
+  text-align: center;
   color: #ffffff;
 }
 
+.inactive {
+  display: none;
+}
+.active {
+  display: block;
+}
 /*************exercises styles****************/
 
 .exercises-container {

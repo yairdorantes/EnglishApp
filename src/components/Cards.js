@@ -1,13 +1,35 @@
-import React from "react";
-import img from "../media/bg3.jpg";
-import img2 from "../media/catch.jpg";
+import React, { useEffect, useState } from "react";
 import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import wordSound from "../media/cards/audio.png";
+import { useSpeechSynthesis } from "react-speech-kit";
 
 const Cards = () => {
+  const { speak } = useSpeechSynthesis();
+  const text = "nigger motherfucker";
+
+  let url = "http://127.0.0.1:8000/api/cards/";
+  const [isActive, setIsActive] = useState(true);
+  const [cards, setCards] = useState();
+
+  const fetchAPi = async () => {
+    const response = await fetch(url);
+    const responseJSON = await response.json();
+    setCards(responseJSON);
+    console.log(responseJSON);
+  };
+
+  useEffect(() => {
+    fetchAPi();
+  }, []);
+
+  const handleDisplay = (e) => {
+    isActive ? setIsActive(false) : setIsActive(true);
+  };
+
   return (
     <>
       <Swiper
@@ -15,34 +37,34 @@ const Cards = () => {
         spaceBetween={10}
         slidesPerView={1}
         scrollbar={{ draggable: true }}
-
-        // onSwiper={(swiper) => console.log(swiper)}
-        // onSlideChange={() => console.log("slide change")}
+        loop={true}
       >
-        <SwiperSlide>
-          <div className="container-card">
-            <div className="card">
-              <figure>
-                <img src={img} alt="" />
-              </figure>
-              <div className="contenido-card">
-                <h3>Mushrooms</h3>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="container-card">
-            <div className="card">
-              <figure>
-                <img src={img2} alt="" />
-              </figure>
-              <div className="contenido-card">
-                <h3>Catch</h3>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
+        {!cards
+          ? console.log("cargando")
+          : cards.cards.map((card, key) => {
+              return (
+                <SwiperSlide key={card.id}>
+                  <div className="container-card">
+                    <div className="card">
+                      <figure>
+                        <img src={card.imageURL} alt="" />
+                      </figure>
+                      <div className="contenido-card">
+                        <img
+                          onClick={() => speak({ text: card.cardTitle })}
+                          className="word-sound"
+                          src={wordSound}
+                          alt=""
+                        />
+                        <h3 onClick={handleDisplay} className="active">
+                          {isActive ? card.cardTitle : card.cardMeaning}
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
       </Swiper>
     </>
   );
