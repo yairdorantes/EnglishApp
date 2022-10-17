@@ -1,0 +1,1 @@
+web: gunicorn duolingoDjango.wsgi --log-file -
