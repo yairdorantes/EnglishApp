@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from cloudinary_storage.storage import VideoMediaCloudinaryStorage
 
 from cloudinary_storage.validators import validate_video
+from cloudinary.models import CloudinaryField
 
 
 class UserModel(AbstractUser):
@@ -37,8 +38,9 @@ class Cards(models.Model):
 class ShortsV2(models.Model):
     # likes = models.IntegerField(verbose_name='Likes', default=0)
     short_name = models.CharField(max_length=50, verbose_name='Short name')
-    video = models.FileField(
-        upload_to='shorts', verbose_name='VideoFile', storage=VideoMediaCloudinaryStorage(), validators=[validate_video])
+    file = CloudinaryField(resource_type='')
+    # video = models.FileField(
+    #     upload_to='shorts', verbose_name='VideoFile', storage=VideoMediaCloudinaryStorage(), validators=[validate_video])
     short_url = models.URLField(
         default="http://127.0.0.1:8000/", verbose_name='Short URL')
     translation = models.TextField(blank=True, verbose_name='Translation')
