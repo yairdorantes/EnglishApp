@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 
 from distutils.command.config import config
-from email.policy import default
 import dj_database_url
 import os
 from pathlib import Path
