@@ -141,10 +141,20 @@ WSGI_APPLICATION = 'duolingoDjango.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
 DATABASES = {
-    "default": dj_database_url.config(default=config('DATABASE_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd8c9mor4asf091',
+        'USER': 'hegzrncvrulxot',
+        'PASSWORD': '265b45453b4a9b2cd356e0d19255bb1ba87a09dde906bce182eb816ecdac2da0',
+        'HOST': 'ec2-44-196-223-128.compute-1.amazonaws.com',
+        'DATABASE_PORT': '5432',
+    }
 }
+
+# DATABASES = {
+#     "default": dj_database_url.config(default=config('DATABASE_URL'))
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
