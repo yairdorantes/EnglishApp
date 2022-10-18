@@ -8,8 +8,8 @@ from django.contrib.auth.models import AbstractUser
 # from cloudinary_storage.validators import validate_video
 
 from cloudinary.models import CloudinaryField
-from cloudinary_storage.storage import VideoMediaCloudinaryStorage
-from cloudinary_storage.validators import validate_video
+# from cloudinary_storage.storage import VideoMediaCloudinaryStorage
+# from cloudinary_storage.validators import validate_video
 
 
 class UserModel(AbstractUser):
@@ -50,7 +50,7 @@ class ShortsV2(models.Model):
     translation = models.TextField(blank=True, verbose_name='Translation')
     question = models.CharField(max_length=100, verbose_name='Question')
     #file = CloudinaryField(resource_type='', blank=True, default="")
-    file = CloudinaryField(resource_type='raw',  blank=True)
+    file = CloudinaryField(resource_type='video',  blank=True)
 
     def delete(self, *args, **kwargs):
         self.video.delete()
