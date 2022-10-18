@@ -1,6 +1,8 @@
 
+from django.views.decorators.csrf import ensure_csrf_cookie
+import stripe
 import json
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views import View
 from .models import Cards, Comment, Post, UserModel, ShortsV2, AnswersForShortsV2
 from rest_framework import viewsets
@@ -23,9 +25,9 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.contrib.auth import get_user_model
 from time import sleep
-
-from rest_framework.decorators import action
-
+from rest_framework.views import APIView
+from django.conf import settings
+from rest_framework import status
 User = get_user_model()
 
 
@@ -266,3 +268,29 @@ class userToPremium(View):
         user.save()
         data = {'message': 'user is now premium!'}
         return JsonResponse(data)
+
+
+# This is your test secret API key.
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+class StripeCheckoutView(APIView):
+    # @ensure_csrf_cookie
+    @method_decorator(csrf_exempt)
+    def post(self, request, *args, **kwargs):
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                line_items=[
+                    {
+                        'price': 'price_1Lnye9A9KCn8yVMOdR9IBuEE',
+                        'quantity': 1,
+                    },
+                ],
+                mode='payment',
+                success_url=settings.SITE_URL +
+                '/?success=true&session_id={CHECKOUT_SESSION_ID}',
+                cancel_url=settings.SITE_URL + '/?canceled=true',
+            )
+            return redirect(checkout_session.url)
+        except Exception:
+            return Response({"error": "something went wrong stripe"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

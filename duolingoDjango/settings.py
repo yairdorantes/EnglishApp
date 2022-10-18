@@ -34,7 +34,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000',
+                        'https://englishapputc.herokuapp.com/']
 # Application definition
 
 INSTALLED_APPS = [
@@ -196,14 +197,13 @@ AUTH_USER_MODEL = 'api.UserModel'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-
 STRIPE_SECRET_KEY = 'sk_test_51KjBqNA9KCn8yVMONc3gFAYwrG6HbwHVDeQ3sxLolr9K5iJHSXRmm8FXpkRFtJp7n5WWCjVjmCOlyHYObMnSVRlL00Y6KfPvVR'
 
 STATIC_FILES = (os.path.join(BASE_DIR, 'duolingoDjango/static')),
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'project/build/static')]
 
-SITE_URL = "http://localhost:3000"
+SITE_URL = "https://englishapputc.herokuapp.com"
 
 
 # Default primary key field type
