@@ -47,6 +47,7 @@ class ShortsV2(models.Model):
     translation = models.TextField(blank=True, verbose_name='Translation')
     question = models.CharField(max_length=100, verbose_name='Question')
     #file = CloudinaryField(resource_type='', blank=True, default="")
+    file = CloudinaryField(resource_type='raw')
 
     def delete(self, *args, **kwargs):
         self.video.delete()
