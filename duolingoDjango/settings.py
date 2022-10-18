@@ -52,8 +52,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'sort_order_field',
     'rest_framework_simplejwt.token_blacklist',
-    'cloudinary',
     'cloudinary_storage',
+    'cloudinary',
 ]
 
 
