@@ -6,7 +6,7 @@ from xml.etree.ElementInclude import include
 from django.urls import path, include
 
 
-from .views import userView, cardView, getRoutes, MyTokenObtainPairView, userToPremium, shortV2Set, shortV2View, PostView, PostSet, GetPostView, CommentView, StripeCheckoutView
+from .views import userView, cardView, getRoutes, MyTokenObtainPairView, userToPremium, shortV2Set, shortV2View, PostView, PostSet, GetPostView, CommentView
 
 from rest_framework.routers import DefaultRouter
 
@@ -31,6 +31,6 @@ urlpatterns = [
     path('posts/<int:id>', PostView.as_view(), name="liked posts by user"),
     path('comments/', CommentView.as_view(), name="post comment"),
     path('comments/<int:id>', CommentView.as_view(), name="liked posts by user"),
-    path('stripe/', StripeCheckoutView.as_view()),
+    #path('stripe/', StripeCheckoutView.as_view()),
     path('', include(router.urls)),
 ]
