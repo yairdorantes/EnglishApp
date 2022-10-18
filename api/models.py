@@ -2,10 +2,10 @@ from django.db import models
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
 
-from cloudinary_storage.storage import VideoMediaCloudinaryStorage
+# from cloudinary_storage.storage import VideoMediaCloudinaryStorage
 
-from cloudinary_storage.validators import validate_video
-# from cloudinary.models import CloudinaryField
+# from cloudinary_storage.validators import validate_video
+from cloudinary.models import CloudinaryField
 
 
 class UserModel(AbstractUser):
