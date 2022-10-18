@@ -10,11 +10,11 @@ from cloudinary.models import CloudinaryField
 
 class UserModel(AbstractUser):
     premium = models.BooleanField(default=False, verbose_name='premium')
-    #username = models.CharField(max_length=100, verbose_name='User name')
-    #email = models.EmailField(verbose_name='User email',unique=True)
-    #password = models.CharField(max_length=128, verbose_name='password')
+    # username = models.CharField(max_length=100, verbose_name='User name')
+    # email = models.EmailField(verbose_name='User email',unique=True)
+    # password = models.CharField(max_length=128, verbose_name='password')
     # active_user=models.BooleanField(default=True)
-    #USERNAME_FIELD = 'email'
+    # USERNAME_FIELD = 'email'
     # def __str__(self):
     #    return self.username
 
@@ -45,6 +45,7 @@ class ShortsV2(models.Model):
         default="http://127.0.0.1:8000/", verbose_name='Short URL')
     translation = models.TextField(blank=True, verbose_name='Translation')
     question = models.CharField(max_length=100, verbose_name='Question')
+    file = CloudinaryField(resource_type='')
 
     def delete(self, *args, **kwargs):
         self.video.delete()
