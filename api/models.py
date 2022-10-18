@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
@@ -45,7 +46,7 @@ class ShortsV2(models.Model):
         default="http://127.0.0.1:8000/", verbose_name='Short URL')
     translation = models.TextField(blank=True, verbose_name='Translation')
     question = models.CharField(max_length=100, verbose_name='Question')
-    file = CloudinaryField(resource_type='')
+    #file = CloudinaryField(resource_type='', blank=True, default="")
 
     def delete(self, *args, **kwargs):
         self.video.delete()
