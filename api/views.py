@@ -1,8 +1,8 @@
 
 from django.views.decorators.csrf import ensure_csrf_cookie
-import stripe
+
 import json
-from django.shortcuts import redirect, render
+
 from django.views import View
 from .models import Cards, Comment, Post, UserModel, ShortsV2, AnswersForShortsV2
 from rest_framework import viewsets
@@ -25,9 +25,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.contrib.auth import get_user_model
 from time import sleep
-from rest_framework.views import APIView
-from django.conf import settings
-from rest_framework import status
+
 User = get_user_model()
 
 
