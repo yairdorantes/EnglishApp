@@ -1,5 +1,4 @@
 
-from django.views.decorators.csrf import ensure_csrf_cookie
 
 import json
 
@@ -117,6 +116,25 @@ class shortV2View(View):
         else:
             data = {'message': 'short not found'}
         return JsonResponse(data)
+    def post(self, request):
+        jd = json.loads(request.body)
+        short = ShortsV2.objects.get(id=jd['id'])
+        user_id = User.objects.get(id=jd['user_id'])
+
+        short.user_answered.add(
+                user_id)
+        if(jd["is_correct"]==True):
+            user_id.score+=10
+            user_id.save()
+            data={"subio":True}
+        else:
+            user_id.score-=5
+            user_id.save()
+
+            data={"subio":False}
+        return JsonResponse(data)
+
+
 
 
 class GetPostView(View):
@@ -238,6 +256,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['username'] = user.username
         token['email'] = user.email
+        token['score'] = user.score
         # ...
 
         return token
