@@ -1,4 +1,4 @@
-from email.policy import default
+
 from django.db import models
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
@@ -67,7 +67,7 @@ class AnswersForShortsV2(models.Model):
         (False, 'No')
     )
     parent_question = models.ForeignKey(
-        ShortsV2, on_delete=models.SET_NULL, default=False, null=True, related_name="answers")
+        ShortsV2, on_delete=models.CASCADE, default="", related_name="answers")
     answer_text = models.CharField(
         max_length=100, verbose_name='Answer text', default="")
     is_correct = models.BooleanField(choices=TRUE_FALSE_CHOICES, default=False)
@@ -105,6 +105,9 @@ class Post(models.Model):
 
     likes_count = models.IntegerField(
         default=0, verbose_name="Post likes counter")
+
+    
+    #text_rendered = RenderedMarkdownField()
 
     def delete(self, *args, **kwargs):
         self.image.delete()

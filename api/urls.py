@@ -31,6 +31,5 @@ urlpatterns = [
     path('posts/<int:id>', PostView.as_view(), name="liked posts by user"),
     path('comments/', CommentView.as_view(), name="post comment"),
     path('comments/<int:id>', CommentView.as_view(), name="liked posts by user"),
-    #path('stripe/', StripeCheckoutView.as_view()),
     path('', include(router.urls)),
 ]

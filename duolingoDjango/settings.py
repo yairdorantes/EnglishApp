@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'cloudinary',
 ]
 
+# AUTHENTICATION_BACKENDS = ['auth_user_model.auth_backends.EmailBackend']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -66,7 +67,7 @@ REST_FRAMEWORK = {
     }
 }
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=90),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -142,6 +143,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
 """
 DATABASES = {
     'default': {
@@ -153,6 +156,7 @@ DATABASES = {
         'DATABASE_PORT': '5432',
     }
 }
+
 
 # DATABASES = {
 #     "default": dj_database_url.config(default=config('DATABASE_URL'))
