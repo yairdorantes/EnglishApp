@@ -109,8 +109,7 @@ class Post(models.Model):
     likes_count = models.IntegerField(
         default=0, verbose_name="Post likes counter")
 
-    
-    #text_rendered = RenderedMarkdownField()
+ 
 
     def delete(self, *args, **kwargs):
         self.image.delete()
