@@ -46,13 +46,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
     'corsheaders',
     'rest_framework',
     'sort_order_field',
     'rest_framework_simplejwt.token_blacklist',
     'cloudinary_storage',
     'cloudinary',
+    'api',
 ]
 
 # AUTHENTICATION_BACKENDS = ['auth_user_model.auth_backends.EmailBackend']
