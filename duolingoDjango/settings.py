@@ -33,8 +33,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000',
-                        'https://englishapputc.herokuapp.com/']
+# CSRF_TRUSTED_ORIGINS = ['http://localhost:3000',
+#                         'https://englishapputc.herokuapp.com/']
 # Application definition
 
 INSTALLED_APPS = [
