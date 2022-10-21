@@ -255,7 +255,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add custom claims
         token['username'] = user.username
-        token['email'] = user.email
+     #   token['email'] = user.email
         token['score'] = user.score
         # ...
 
