@@ -172,13 +172,21 @@ class shortV2View(View):
             data = {'message': 'short not found'}
         return JsonResponse(data)
     def post(self, request):
+        add_user = False
         jd = json.loads(request.body)
         
+        short = ShortsV2.objects.get(id=jd['id'])
         try:
-            if ShortsV2.objects.filter(user_answered=jd["user_id"]).exists():
-                return JsonResponse({"user":"already answered"})  
-            else:
-                short = ShortsV2.objects.get(id=jd['id'])
+            short = ShortsV2.objects.filter(id=jd['id']).values("user_answered")
+            for i in short:
+                if i["user_answered"]==jd["user_id"]:
+                    add_user=False 
+                    return JsonResponse({"user":"already answered"}) 
+                else:
+                    add_user=True
+                    
+            if add_user:
+                
                 user_id = User.objects.get(id=jd['user_id'])
                 short.user_answered.add(
                 user_id)
@@ -191,7 +199,7 @@ class shortV2View(View):
                     user_id.save()
 
                     data={"subio":False}
-
+  
                 return JsonResponse(data)  
         except:
             return JsonResponse({"error":"something went wrong"})

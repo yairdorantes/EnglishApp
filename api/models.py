@@ -39,10 +39,8 @@ class Cards(models.Model):
     cardImage = models.ImageField(verbose_name='Card image', upload_to='cards',null=True, blank=True,)
     imageURL = models.URLField(
        blank=True, verbose_name='Image source')
-    def serialize(self):
-        return{
-            "cardImage": self.cardImage.url 
-        }
+    class Meta:
+        ordering = ["-id"]
 
     def delete(self, *args, **kwargs):
         self.cardImage.delete()
