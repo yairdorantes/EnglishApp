@@ -273,11 +273,6 @@ class PostSet(viewsets.ModelViewSet):
         posts = Post.objects.all()
         return posts
 
-class cardSet(viewsets.ModelViewSet):
-    serializer_class =serializeImage
-    def get_queryset(self):
-        cards = Cards.objects.all()
-        return cards
 
 
 
