@@ -7,7 +7,7 @@ from django.views import View
 from .models import Cards, Comment, Post, UserModel, ShortsV2, AnswersForShortsV2,CategoriaCard
 from rest_framework import viewsets
 from .serializers import ShortsV2Serializer, AnswerShortSerializer, PostSerializer, serializeImage
-from random import shuffle
+
 
 from django.http.response import JsonResponse
 # Create your views here.
