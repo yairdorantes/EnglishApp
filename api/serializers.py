@@ -34,10 +34,3 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = "__all__"
 
-class serializeImage(serializers.ModelSerializer):
-    image_url = serializers.SerializerMethodField("get_image_url")
-    class Meta:
-        model = Cards
-        fields = "__all__"
-    def get_image_url(self,obj):
-        return obj.cardImage.url

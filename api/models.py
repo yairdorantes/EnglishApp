@@ -31,7 +31,6 @@ class CategoriaCard(models.Model):
         return self.name
 
 class Cards(models.Model):
-    # file = Base64Field(max_length=900000, blank=True, null=True,upload_to="cards")
 
     owner = models.ForeignKey(UserModel,on_delete=models.CASCADE,null=True,blank=True)
     categoria = models.ForeignKey(CategoriaCard,on_delete=models.CASCADE,null=True,blank=True)
