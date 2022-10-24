@@ -124,17 +124,28 @@ class cardView(View):
             return JsonResponse(data)
     def post(self,request):
         jd = json.loads(request.body)
-        base64Image = jd["file"]
-        format,imgstr = base64Image.split(";base64,")
-        ext = format.split('/')[-1]
-        dataFile = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+        try:
+            base64Image = jd["file"]
+            format,imgstr = base64Image.split(";base64,")
+            ext = format.split('/')[-1]
+            dataFile = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+
+            card = Cards.objects.create(owner_id=jd["user"],
+            cardTitle=jd['title'],
+             cardMeaning=jd["meaning"],
+            cardImage=dataFile)
+            card.save()
+            data = {'message': 'success'}
+        except:
+            card = Cards.objects.create(owner_id=jd["user"],
+            cardTitle=jd['title'],
+            cardMeaning=jd["meaning"],
+            cardImage="",
+            imageURL=jd["img_url"])
+            card.save()
+            data = {'message': 'success'}
+
       
-        card = Cards.objects.create(owner_id=jd["user"],
-        cardTitle=jd['title'],
-        cardMeaning=jd["meaning"]
-        ,cardImage=dataFile)
-        card.save()
-        data = {'message': 'success'}
         return JsonResponse(data)
     def delete(self, request, card):
         Cards.objects.get(id=card).delete()
@@ -162,22 +173,30 @@ class shortV2View(View):
         return JsonResponse(data)
     def post(self, request):
         jd = json.loads(request.body)
-        short = ShortsV2.objects.get(id=jd['id'])
-        user_id = User.objects.get(id=jd['user_id'])
-
-        short.user_answered.add(
+        
+        try:
+            if ShortsV2.objects.filter(user_answered=jd["user_id"]).exists():
+                return JsonResponse({"user":"already answered"})  
+            else:
+                short = ShortsV2.objects.get(id=jd['id'])
+                user_id = User.objects.get(id=jd['user_id'])
+                short.user_answered.add(
                 user_id)
-        if(jd["is_correct"]==True):
-            user_id.score+=10
-            user_id.save()
-            data={"subio":True}
-        else:
-            user_id.score-=5
-            user_id.save()
+                if(jd["is_correct"]==True):
+                    user_id.score+=10
+                    user_id.save()
+                    data={"subio":True}
+                else:
+                    user_id.score-=5
+                    user_id.save()
 
-            data={"subio":False}
-        return JsonResponse(data)
+                    data={"subio":False}
 
+                return JsonResponse(data)  
+        except:
+            return JsonResponse({"error":"something went wrong"})
+     
+        
 
 
 

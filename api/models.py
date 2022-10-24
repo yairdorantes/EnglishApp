@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 
 class UserModel(AbstractUser):
     premium = models.BooleanField(default=False, verbose_name='premium')
-    #score = models.IntegerField(default=0,null=True)
+    score = models.IntegerField(default=0,null=True)
     # username = models.CharField(max_length=100, verbose_name='User name')
     # email = models.EmailField(verbose_name='User email',unique=True)
     # password = models.CharField(max_length=128, verbose_name='password')
@@ -59,7 +59,7 @@ class ShortsV2(models.Model):
         UserModel,blank=True)
    # file = CloudinaryField(resource_type='')
     video = models.FileField(
-         upload_to='shorts', verbose_name='VideoFile',null=True)
+         upload_to='shorts', verbose_name='VideoFile',null=True,blank=True)
     short_url = models.URLField(
         default="http://127.0.0.1:8000/", verbose_name='Short URL')
     translation = models.TextField(blank=True, verbose_name='Translation')
