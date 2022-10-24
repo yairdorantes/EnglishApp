@@ -302,7 +302,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['username'] = user.username
      #   token['email'] = user.email
-        token['score'] = user.score
+     #   token['score'] = user.score
         # ...
 
         return token
