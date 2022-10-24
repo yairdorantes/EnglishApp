@@ -6,7 +6,7 @@ import json
 from django.views import View
 from .models import Cards, Comment, Post, UserModel, ShortsV2, AnswersForShortsV2,CategoriaCard
 from rest_framework import viewsets
-from .serializers import ShortsV2Serializer, AnswerShortSerializer, PostSerializer, serializeImage
+from .serializers import ShortsV2Serializer, AnswerShortSerializer, PostSerializer
  
 
 from django.http.response import JsonResponse
