@@ -177,8 +177,14 @@ class shortV2View(View):
         
         short = ShortsV2.objects.get(id=jd['id'])
         try:
-            short = ShortsV2.objects.filter(id=jd['id']).values("user_answered")
-            for i in short:
+            # print("lolita")
+            shortSearch = ShortsV2.objects.filter(id=jd['id']).values("user_answered")
+            # print(short["user_answered"])
+            # print(shortSearch)
+            # print(short.values("user_answered"))
+                
+                # return JsonResponse({"ajaj":"aajaja"}) 
+            for i in shortSearch:
                 if i["user_answered"]==jd["user_id"]:
                     add_user=False 
                     return JsonResponse({"user":"already answered"}) 
@@ -186,6 +192,7 @@ class shortV2View(View):
                     add_user=True
                     
             if add_user:
+                print("aqui")
                 
                 user_id = User.objects.get(id=jd['user_id'])
                 short.user_answered.add(
