@@ -2,10 +2,11 @@
 
 import json
 
+
 from django.views import View
-from .models import Cards, Comment, Post, UserModel, ShortsV2, AnswersForShortsV2
+from .models import Cards, Comment, Post, UserModel, ShortsV2, AnswersForShortsV2,CategoriaCard
 from rest_framework import viewsets
-from .serializers import ShortsV2Serializer, AnswerShortSerializer, PostSerializer
+from .serializers import ShortsV2Serializer, AnswerShortSerializer, PostSerializer, serializeImage
 from random import shuffle
 
 from django.http.response import JsonResponse
@@ -24,6 +25,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.contrib.auth import get_user_model
 from time import sleep
+import base64
+from django.core.files.base import ContentFile
 
 User = get_user_model()
 
@@ -91,17 +94,58 @@ class cardView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+     
+    def get(self, request,section="",id=0):
 
-    def get(self, request):
+        if(section!=""):
+            cards = list(Cards.objects.filter(categoria=CategoriaCard.objects.get(name=section)).values())
+            # cards = list(Cards.objects.filter(id=1).values())
+            if len(cards)>0:
+                data = {'message':'success', 'cards': cards}
+            else:
+                data = {'message':" no cards found"}
+            return JsonResponse(data)
+        if id>0:
+            cards = list(Cards.objects.filter(owner_id=id).values())
+            if len(cards) > 0:
+                data = {'message': 'success', 'cards': cards}
+            else:
+                data = {'message': 'no cards'}
+            return JsonResponse(data)
 
-        cards = list(Cards.objects.values())
-        # cards = shuffle(cards)
-        if len(cards) > 0:
-            data = {'message': 'success', 'cards': cards}
         else:
-            data = {'message': 'card not found'}
+            cards = list(Cards.objects.values())
+       # cards = shuffle(cards)
+            if len(cards) > 0:
+                data = {'message': 'success', 'cards': cards}
+            else:
+                data = {'message': 'card not found'}
         # sleep(1.3)
+            return JsonResponse(data)
+    def post(self,request):
+        jd = json.loads(request.body)
+        base64Image = jd["file"]
+        format,imgstr = base64Image.split(";base64,")
+        ext = format.split('/')[-1]
+        dataFile = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+      
+        card = Cards.objects.create(owner_id=jd["user"],
+        cardTitle=jd['title'],
+        cardMeaning=jd["meaning"]
+        ,cardImage=dataFile)
+        card.save()
+        data = {'message': 'success'}
         return JsonResponse(data)
+    def delete(self, request, card):
+        Cards.objects.get(id=card).delete()
+        data = {'message': 'success'}
+        # card = list(Cards.objects.filter(id=id).values())
+        # if len(card) > 0:
+        # else:
+        #     data = {'message': 'user not found'}
+        return JsonResponse(data)
+
+
 
 
 class shortV2View(View):
@@ -229,6 +273,13 @@ class PostSet(viewsets.ModelViewSet):
         posts = Post.objects.all()
         return posts
 
+class cardSet(viewsets.ModelViewSet):
+    serializer_class =serializeImage
+    def get_queryset(self):
+        cards = Cards.objects.all()
+        return cards
+
+
 
 class shortV2Set(viewsets.ModelViewSet):
 
@@ -263,7 +314,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
-  
+
     serializer_class = MyTokenObtainPairSerializer
 
 

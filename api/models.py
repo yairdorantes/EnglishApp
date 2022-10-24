@@ -1,4 +1,5 @@
 
+
 from django.db import models
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
@@ -16,13 +17,33 @@ class UserModel(AbstractUser):
     #    return self.username
 
 
+class CategoriaCard(models.Model):
+    name = models.CharField(
+        max_length=100,  unique=False, verbose_name='Category Cards',null=True)
+    # color = models.CharField(
+    #     max_length=100, verbose_name='color ategory', default='#FFFFFF')
+
+    class meta:
+        verbose_name = 'Category Cards'
+       # ordering = ['id']
+
+    def __str__(self):
+        return self.name
+
 class Cards(models.Model):
+    # file = Base64Field(max_length=900000, blank=True, null=True,upload_to="cards")
+
+    owner = models.ForeignKey(UserModel,on_delete=models.CASCADE,null=True,blank=True)
+    categoria = models.ForeignKey(CategoriaCard,on_delete=models.CASCADE,null=True,blank=True)
     cardTitle = models.CharField(max_length=50, verbose_name='Card title')
     cardMeaning = models.CharField(max_length=50, verbose_name='Card meaning')
-    cardImage = models.ImageField(verbose_name='Card image', upload_to='cards')
+    cardImage = models.ImageField(verbose_name='Card image', upload_to='cards',null=True, blank=True,)
     imageURL = models.URLField(
-
-        default="http://127.0.0.1:8000/cards/", verbose_name='Image source')
+       blank=True, verbose_name='Image source')
+    def serialize(self):
+        return{
+            "cardImage": self.cardImage.url 
+        }
 
     def delete(self, *args, **kwargs):
         self.cardImage.delete()
@@ -36,10 +57,10 @@ class ShortsV2(models.Model):
     # likes = models.IntegerField(verbose_name='Likes', default=0)
     short_name = models.CharField(max_length=50, verbose_name='Short name')
     user_answered=models.ManyToManyField(
-        UserModel)
+        UserModel,blank=True)
    # file = CloudinaryField(resource_type='')
-    # video = models.FileField(
-    #     upload_to='shorts', verbose_name='VideoFile')
+    video = models.FileField(
+         upload_to='shorts', verbose_name='VideoFile',null=True)
     short_url = models.URLField(
         default="http://127.0.0.1:8000/", verbose_name='Short URL')
     translation = models.TextField(blank=True, verbose_name='Translation')
@@ -87,7 +108,7 @@ class CategoriaPost(models.Model):
 
 class Post(models.Model):
     categoria = models.ForeignKey(
-        CategoriaPost, on_delete=models.CASCADE)
+        CategoriaPost, on_delete=models.CASCADE,null=True)
     image = models.FileField(upload_to="PostImage", verbose_name="Post image")
     title = models.CharField(max_length=500, verbose_name="Post title")
   #  intro = models.CharField(max_length=500, verbose_name="Post intro")
