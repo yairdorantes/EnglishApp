@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 
 class UserModel(AbstractUser):
     premium = models.BooleanField(default=False, verbose_name='premium')
-    score = models.IntegerField(default=0,null=True)
+    #score = models.IntegerField(default=0,null=True)
     # username = models.CharField(max_length=100, verbose_name='User name')
     # email = models.EmailField(verbose_name='User email',unique=True)
     # password = models.CharField(max_length=128, verbose_name='password')
