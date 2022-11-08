@@ -30,6 +30,14 @@ from django.core.files.base import ContentFile
 
 User = get_user_model()
 
+class TopUsers(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    def get(self, request):
+        top_users = list(UserModel.objects.all().order_by('-score')[:3].values())
+        print(top_users)
+        return JsonResponse({"topuser":top_users})
 
 class userView(View):
     @method_decorator(csrf_exempt)
