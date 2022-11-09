@@ -4,7 +4,8 @@ from django.db import models
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
 
-
+# class MaxCard(models.Model):
+#     maximum = models.IntegerField(default=)
 class UserModel(AbstractUser):
     premium = models.BooleanField(default=False, verbose_name='premium')
     score = models.IntegerField(default=0,null=True)
