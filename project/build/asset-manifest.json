@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.75f44c40.css",
-    "main.js": "/static/js/main.2fb20af9.js",
+    "main.css": "/static/css/main.e7eb167e.css",
+    "main.js": "/static/js/main.725b9983.js",
     "static/js/787.ec704a7a.chunk.js": "/static/js/787.ec704a7a.chunk.js",
     "static/media/video.mp4": "/static/media/video.4790bbf54e98b808f4a8.mp4",
     "static/media/night.jpg": "/static/media/night.92142f226d1d6704e1c6.jpg",
@@ -12,6 +12,7 @@
     "static/media/third.png": "/static/media/third.a6118719e0113ec6d7da.png",
     "static/media/cardss.png": "/static/media/cardss.a874052ad684c0fabdc1.png",
     "static/media/youth.png": "/static/media/youth.543d3f2061d89657cbcc.png",
+    "static/media/next.png": "/static/media/next.1cf2668a558f7fe2b09c.png",
     "static/media/blog.png": "/static/media/blog.1296d1ba0b5538935c29.png",
     "static/media/experiencia.png": "/static/media/experiencia.04d5a59cd5231bf7d523.png",
     "static/media/ganador.png": "/static/media/ganador.a7e535a47efa9d9964fb.png",
@@ -27,12 +28,12 @@
     "static/media/undo.png": "/static/media/undo.4406f9977556e77f01a3.png",
     "static/media/Moon.svg": "/static/media/Moon.6e6e84284f70ab5d3ab6.svg",
     "index.html": "/index.html",
-    "main.75f44c40.css.map": "/static/css/main.75f44c40.css.map",
-    "main.2fb20af9.js.map": "/static/js/main.2fb20af9.js.map",
+    "main.e7eb167e.css.map": "/static/css/main.e7eb167e.css.map",
+    "main.725b9983.js.map": "/static/js/main.725b9983.js.map",
     "787.ec704a7a.chunk.js.map": "/static/js/787.ec704a7a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.75f44c40.css",
-    "static/js/main.2fb20af9.js"
+    "static/css/main.e7eb167e.css",
+    "static/js/main.725b9983.js"
   ]
 }
