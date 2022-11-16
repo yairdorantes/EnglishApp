@@ -4,9 +4,9 @@ import json
 
 
 from django.views import View
-from .models import Cards, Comment, Post, UserModel, ShortsV2, AnswersForShortsV2,CategoriaCard
+from .models import Cards, Comment, Post, UserModel,CategoriaCard
 from rest_framework import viewsets
-from .serializers import ShortsV2Serializer, AnswerShortSerializer, PostSerializer
+from .serializers import  PostSerializer
  
 
 from django.http.response import JsonResponse
@@ -30,6 +30,7 @@ from django.core.files.base import ContentFile
 
 User = get_user_model()
 
+ 
 class TopUsers(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -38,6 +39,20 @@ class TopUsers(View):
         top_users = list(UserModel.objects.all().order_by('-score')[:3].values())
         print(top_users)
         return JsonResponse({"topuser":top_users})
+
+class IncreaseScore(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    def post(self, request,id=0):
+        # jd = json.loads(request.body)
+        user_id = User.objects.get(id=id)
+        user_id.score+=1
+        user_id.save()
+        data={"res":"result"}
+        return JsonResponse(data)  
+      
+
 
 class userView(View):
     @method_decorator(csrf_exempt)
@@ -167,57 +182,7 @@ class cardView(View):
 
 
 
-class shortV2View(View):
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
-    def get(self, request):
-        shorts = list(ShortsV2.objects.values())
-        if len(shorts) > 0:
-            data = {'message': 'success', 'shortsV2': shorts}
-        else:
-            data = {'message': 'short not found'}
-        return JsonResponse(data)
-    def post(self, request):
-        add_user = False
-        jd = json.loads(request.body)
-        
-        short = ShortsV2.objects.get(id=jd['id'])
-        try:
-            # print("lolita")
-            shortSearch = ShortsV2.objects.filter(id=jd['id']).values("user_answered")
-            # print(short["user_answered"])
-            # print(shortSearch)
-            # print(short.values("user_answered"))
-                
-                # return JsonResponse({"ajaj":"aajaja"}) 
-            for i in shortSearch:
-                if i["user_answered"]==jd["user_id"]:
-                    add_user=False 
-                    return JsonResponse({"user":"already answered"}) 
-                else:
-                    add_user=True
-                    
-            if add_user:
-                print("aqui")
-                
-                user_id = User.objects.get(id=jd['user_id'])
-                short.user_answered.add(
-                user_id)
-                if(jd["is_correct"]==True):
-                    user_id.score+=10
-                    user_id.save()
-                    data={"subio":True}
-                else:
-                    user_id.score-=5
-                    user_id.save()
-
-                    data={"subio":False}
-  
-                return JsonResponse(data)  
-        except:
-            return JsonResponse({"error":"something went wrong"})
      
         
 
@@ -318,21 +283,8 @@ class PostSet(viewsets.ModelViewSet):
 
 
 
-class shortV2Set(viewsets.ModelViewSet):
-
-    serializer_class = ShortsV2Serializer
-
-    def get_queryset(self):
-        shorts = ShortsV2.objects.all()
-        return shorts
 
 
-class AnswersForShortsV2Set(viewsets.ModelViewSet):
-    serializer_class = AnswerShortSerializer
-
-    def get_queryset(self):
-        answers = AnswersForShortsV2
-        return answers
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

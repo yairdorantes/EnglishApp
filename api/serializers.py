@@ -1,21 +1,21 @@
 
-from .models import Cards, Comment, ShortsV2, AnswersForShortsV2, CategoriaPost, Post
+from .models import  CategoriaPost, Post
 from rest_framework import serializers
 
 
-class AnswerShortSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AnswersForShortsV2
-        fields = "__all__"
+# class AnswerShortSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = AnswersForShortsV2
+#         fields = "__all__"
 
 
-class ShortsV2Serializer(serializers.ModelSerializer):
-    answers = AnswerShortSerializer(many=True, read_only=True)
+# class ShortsV2Serializer(serializers.ModelSerializer):
+#     answers = AnswerShortSerializer(many=True, read_only=True)
 
-    class Meta:
-        model = ShortsV2
-        fields = "__all__"
-        depth = 1
+#     class Meta:
+#         model = ShortsV2
+#         fields = "__all__"
+#         depth = 1
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -24,7 +24,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-##############################################
+# ##############################################
 
 class PostSerializer(serializers.ModelSerializer):
     categoria = CategorySerializer()

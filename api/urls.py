@@ -7,13 +7,13 @@ from xml.etree.ElementInclude import include
 from django.urls import path, include
 
 
-from .views import userView, cardView, getRoutes, MyTokenObtainPairView, userToPremium, shortV2Set, shortV2View, PostView, PostSet, GetPostView, CommentView,TopUsers
+from .views import userView, cardView, getRoutes, MyTokenObtainPairView, userToPremium, PostView, PostSet, GetPostView, CommentView,TopUsers,IncreaseScore
 
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 
-router.register('shortsetV2', shortV2Set, basename="shortV2Set")
+
 router.register('postset', PostSet, basename="postset")
 
 urlpatterns = [
@@ -24,7 +24,7 @@ urlpatterns = [
     path('usercards/<int:id>', cardView.as_view(), name='cards_list2'),
     path('delcard/<int:card>', cardView.as_view(), name='cards_list2'),
     # path('shorts/', shortView.as_view(), name='shorts_list'),
-    path('shortsV2/', shortV2View.as_view(), name='shorts_list'),
+   
 
     path('routes/', getRoutes),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -36,6 +36,7 @@ urlpatterns = [
     path('comments/', CommentView.as_view(), name="post comment"),
     path('comments/<int:id>', CommentView.as_view(), name="liked posts by user"),
     path('topusers/', TopUsers.as_view(), name="top users"),
+    path('increase/<int:id>', IncreaseScore.as_view(), name="increase score"),
 
     path('', include(router.urls)),
 ]

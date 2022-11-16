@@ -50,46 +50,6 @@ class Cards(models.Model):
     def __str__(self):
         return self.cardTitle
 
-
-class ShortsV2(models.Model):
-    # likes = models.IntegerField(verbose_name='Likes', default=0)
-    short_name = models.CharField(max_length=50, verbose_name='Short name')
-    user_answered=models.ManyToManyField(
-        UserModel,blank=True)
-   # file = CloudinaryField(resource_type='')
-    video = models.FileField(
-         upload_to='shorts', verbose_name='VideoFile',null=True,blank=True)
-    short_url = models.URLField(
-        default="http://127.0.0.1:8000/", verbose_name='Short URL')
-    translation = models.TextField(blank=True, verbose_name='Translation')
-    question = models.CharField(max_length=100, verbose_name='Question')
-    #file = CloudinaryField(resource_type='', blank=True, default="")
-   # file = CloudinaryField(resource_type='video',  blank=True)
-
-    def delete(self, *args, **kwargs):
-        self.video.delete()
-        super().delete(*args, **kwargs)
-
-    def __str__(self):
-        return self.short_name
-
-
-class AnswersForShortsV2(models.Model):
-
-    TRUE_FALSE_CHOICES = (
-        (True, 'Yes'),
-        (False, 'No')
-    )
-    parent_question = models.ForeignKey(
-        ShortsV2, on_delete=models.CASCADE, default="", related_name="answers")
-    answer_text = models.CharField(
-        max_length=100, verbose_name='Answer text', default="")
-    is_correct = models.BooleanField(choices=TRUE_FALSE_CHOICES, default=False)
-
-    def __str__(self):
-        return self.answer_text + " " + " - " + self.parent_question.short_name
-
-
 class CategoriaPost(models.Model):
     name = models.CharField(
         max_length=100, null=False, unique=False, verbose_name='Category Post')
