@@ -1,28 +1,18 @@
-
-
 import json
-
-
 from django.views import View
 from .models import Cards, Comment, Post, UserModel,CategoriaCard
 from rest_framework import viewsets
 from .serializers import  PostSerializer
- 
-
 from django.http.response import JsonResponse
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
-
 from django.contrib.auth.models import User
-
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-
 from django.contrib.auth import get_user_model
 from time import sleep
 import base64
@@ -39,6 +29,11 @@ class TopUsers(View):
         top_users = list(UserModel.objects.all().order_by('-score')[:3].values())
         print(top_users)
         return JsonResponse({"topuser":top_users})
+
+
+
+
+
 
 class IncreaseScore(View):
     @method_decorator(csrf_exempt)
@@ -167,9 +162,28 @@ class cardView(View):
             imageURL=jd["img_url"])
             card.save()
             data = {'message': 'success'}
-
-      
         return JsonResponse(data)
+    def put(self,request,id):
+        jd = json.loads(request.body)
+        card_to_edit = Cards.objects.get(id=id)
+        print(len(jd["file"]))
+        if(len(jd["file"])>0):
+            base64Image = jd["file"]
+            format,imgstr = base64Image.split(";base64,")
+            ext = format.split('/')[-1]
+            dataFile = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+            card_to_edit.cardImage = dataFile
+            card_to_edit.imageURL=""
+        if(len(jd["img_url"])>0):
+            card_to_edit.imageURL = jd['img_url']
+            card_to_edit.cardImage=""   
+        card_to_edit.cardTitle = jd['title']
+        card_to_edit.cardMeaning = jd['meaning']
+        card_to_edit.save()
+        data = {'message':'success'}
+
+        return JsonResponse(data)        
+      
     def delete(self, request, card):
         Cards.objects.get(id=card).delete()
         data = {'message': 'success'}
@@ -178,15 +192,6 @@ class cardView(View):
         # else:
         #     data = {'message': 'user not found'}
         return JsonResponse(data)
-
-
-
-
-
-     
-        
-
-
 
 class GetPostView(View):
     @method_decorator(csrf_exempt)
@@ -279,12 +284,6 @@ class PostSet(viewsets.ModelViewSet):
     def get_queryset(self):
         posts = Post.objects.all()
         return posts
-
-
-
-
-
-
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
