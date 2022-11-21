@@ -15,7 +15,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
-# import django_heroku
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,7 +34,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000',
-                         'https://englishapputc.herokuapp.com/']
+                         'https://symptomatic-cent-production.up.railway.app']
 # Application definition
 
 INSTALLED_APPS = [
@@ -155,16 +155,7 @@ DATABASES = {
 #         'DATABASE_PORT': '5432',
 #     }
 # }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'railway',
-#         'USER': 'postgres',
-#         'PASSWORD': 'KrtAJNDowNwZuNiByK95',
-#         'HOST': 'containers-us-west-121.railway.app',
-#         'DATABASE_PORT': '6873',
-#     }
-# }
+
 
 DATABASES = {
     'default': {
@@ -173,9 +164,21 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'KrtAJNDowNwZuNiByK95',
         'HOST': 'containers-us-west-121.railway.app',
-        'DATABASE_PORT': '6873',
+        'PORT': '6873',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'dbenglish',
+#         'USER': 'yair',
+#         'PASSWORD': '8CiephXQhZvs0MSaw4GBcO53iTux8lDp',
+#         'HOST': 'dpg-cdtqrv1a6gdu24ao1b8g-a',
+#         'DATABASE_PORT': '5432',
+#     }
+# }
+
 
 # DATABASES = {
 #     "default": dj_database_url.config(default=config('DATABASE_URL'))
@@ -226,7 +229,7 @@ STATIC_FILES = (os.path.join(BASE_DIR, 'duolingoDjango/static')),
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'project/build/static')]
 
-# SITE_URL = "https://englishapputc.herokuapp.com"
+SITE_URL = "https://symptomatic-cent-production.up.railway.app"
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880
 
@@ -250,5 +253,4 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'mediafiles')
 # MEDIA_URL = '/media/'
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-# django_heroku.settings(locals())
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
