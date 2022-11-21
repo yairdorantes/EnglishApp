@@ -134,8 +134,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'duolingoDjango.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+
 """
 DATABASES = {
     'default': {
@@ -156,12 +155,23 @@ DATABASES = {
 #         'DATABASE_PORT': '5432',
 #     }
 # }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'railway',
+#         'USER': 'postgres',
+#         'PASSWORD': 'KrtAJNDowNwZuNiByK95',
+#         'HOST': 'containers-us-west-121.railway.app',
+#         'DATABASE_PORT': '6873',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
-        'USER': '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',
-        'PASSWORD': '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',
+        'USER': 'postgres',
+        'PASSWORD': 'KrtAJNDowNwZuNiByK95',
         'HOST': 'containers-us-west-121.railway.app',
         'DATABASE_PORT': '6873',
     }
