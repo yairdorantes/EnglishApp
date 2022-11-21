@@ -159,11 +159,11 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dbenglish',
-        'USER': 'yair',
-        'PASSWORD': '8CiephXQhZvs0MSaw4GBcO53iTux8lDp',
-        'HOST': 'dpg-cdtqrv1a6gdu24ao1b8g-a',
-        'DATABASE_PORT': '5432',
+        'NAME': 'railway',
+        'USER': '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',
+        'PASSWORD': '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',
+        'HOST': 'containers-us-west-121.railway.app',
+        'DATABASE_PORT': '6873',
     }
 }
 
@@ -216,7 +216,7 @@ STATIC_FILES = (os.path.join(BASE_DIR, 'duolingoDjango/static')),
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'project/build/static')]
 
-SITE_URL = "https://englishapputc.herokuapp.com"
+# SITE_URL = "https://englishapputc.herokuapp.com"
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880
 
