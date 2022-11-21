@@ -1,25 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.c8b33cd1.css",
-    "main.js": "/static/js/main.cc137d93.js",
+    "main.css": "/static/css/main.0048bf3d.css",
+    "main.js": "/static/js/main.b5eb7b49.js",
     "static/js/787.ec704a7a.chunk.js": "/static/js/787.ec704a7a.chunk.js",
     "static/media/video.mp4": "/static/media/video.4790bbf54e98b808f4a8.mp4",
     "static/media/blog.jpg": "/static/media/blog.3ca4c8a6d90ed1fc5258.jpg",
     "static/media/night.jpg": "/static/media/night.92142f226d1d6704e1c6.jpg",
     "static/media/words.jpg": "/static/media/words.766af15770be574e23ba.jpg",
-    "static/media/last.jpg": "/static/media/last.c8ef6522e54f07c0e817.jpg",
-    "static/media/ganado.png": "/static/media/ganado.60332b2d0296ddc99843.png",
     "static/media/first.png": "/static/media/first.b40d60fbc596684fc21f.png",
-    "static/media/digital.png": "/static/media/digital.c9304016730ba664ec51.png",
     "static/media/third.png": "/static/media/third.a6118719e0113ec6d7da.png",
     "static/media/cardss.png": "/static/media/cardss.a874052ad684c0fabdc1.png",
-    "static/media/youth.png": "/static/media/youth.543d3f2061d89657cbcc.png",
     "static/media/blog.png": "/static/media/blog.1296d1ba0b5538935c29.png",
-    "static/media/experiencia.png": "/static/media/experiencia.04d5a59cd5231bf7d523.png",
     "static/media/ganador.png": "/static/media/ganador.a7e535a47efa9d9964fb.png",
-    "static/media/menus.png": "/static/media/menus.e65915d994539d58392a.png",
+    "static/media/casa.png": "/static/media/casa.509be63fc27ab3d4f667.png",
     "static/media/second.png": "/static/media/second.b6d8bc85b17aef345e51.png",
-    "static/media/things.png": "/static/media/things.c378382f0778db86eedc.png",
     "static/media/trophy.jpg": "/static/media/trophy.f6847d6637b0131a75e3.jpg",
     "static/media/next3.png": "/static/media/next3.eb3e50ae865e39e7548a.png",
     "static/media/vip.png": "/static/media/vip.34ed9cc3104f45d3aa3d.png",
@@ -27,15 +21,16 @@
     "static/media/audio.png": "/static/media/audio.6b9dd21404ddf0ecef0a.png",
     "static/media/delete.png": "/static/media/delete.ea5c2f03783ec889d860.png",
     "static/media/send.png": "/static/media/send.cce7f972efaf9447fcdf.png",
+    "static/media/my.png": "/static/media/my.961568814dceb733c85a.png",
     "static/media/lapiz.png": "/static/media/lapiz.4f5f007ff0c0f8759105.png",
     "static/media/add.png": "/static/media/add.2b8d4d925aa7161c1819.png",
     "index.html": "/index.html",
-    "main.c8b33cd1.css.map": "/static/css/main.c8b33cd1.css.map",
-    "main.cc137d93.js.map": "/static/js/main.cc137d93.js.map",
+    "main.0048bf3d.css.map": "/static/css/main.0048bf3d.css.map",
+    "main.b5eb7b49.js.map": "/static/js/main.b5eb7b49.js.map",
     "787.ec704a7a.chunk.js.map": "/static/js/787.ec704a7a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c8b33cd1.css",
-    "static/js/main.cc137d93.js"
+    "static/css/main.0048bf3d.css",
+    "static/js/main.b5eb7b49.js"
   ]
 }

@@ -21,9 +21,8 @@ class UserModel(AbstractUser):
 class CategoriaCard(models.Model):
     name = models.CharField(
         max_length=100,  unique=False, verbose_name='Category Cards',null=True)
-    # color = models.CharField(
-    #     max_length=100, verbose_name='color ategory', default='#FFFFFF')
-
+    icon = models.URLField(default="http://127.0.0.1:8000/",verbose_name="icon source")
+    bg_image = models.URLField(default="http://127.0.0.1:8000/",verbose_name="background source")
     class meta:
         verbose_name = 'Category Cards'
        # ordering = ['id']
@@ -67,7 +66,7 @@ class CategoriaPost(models.Model):
 class Post(models.Model):
     categoria = models.ForeignKey(
         CategoriaPost, on_delete=models.CASCADE,null=True)
-    image = models.FileField(upload_to="PostImage", verbose_name="Post image")
+    image = models.FileField(upload_to="PostImage", verbose_name="Post image",blank=True,null=True)
     title = models.CharField(max_length=500, verbose_name="Post title")
   #  intro = models.CharField(max_length=500, verbose_name="Post intro")
     content = models.TextField(blank=True, verbose_name="Post content")

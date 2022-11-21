@@ -7,7 +7,7 @@ from xml.etree.ElementInclude import include
 from django.urls import path, include
 
 
-from .views import userView, cardView, getRoutes, MyTokenObtainPairView, userToPremium, PostView, PostSet, GetPostView, CommentView,TopUsers,IncreaseScore
+from .views import userView, cardView, getRoutes, MyTokenObtainPairView, userToPremium, PostView, PostSet, GetPostView, CommentView,TopUsers,IncreaseScore,CategoryView
 
 from rest_framework.routers import DefaultRouter
 
@@ -22,10 +22,10 @@ urlpatterns = [
     path('cards/', cardView.as_view(), name='cards_list'),
     path('cards/<str:section>', cardView.as_view(), name='cards_list3'),
     path('usercards/<int:id>', cardView.as_view(), name='cards_list2'),
-    path('delcard/<int:card>', cardView.as_view(), name='cards_list2'),
+    path('delcard/<int:card>', cardView.as_view(), name='cards_list1'),
     # path('shorts/', shortView.as_view(), name='shorts_list'),
     path('card-edit/<int:id>', cardView.as_view(), name="edit card"),
-   
+    path('categories', CategoryView.as_view(), name="categories"),
     path('routes/', getRoutes),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

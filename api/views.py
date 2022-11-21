@@ -48,6 +48,21 @@ class IncreaseScore(View):
         return JsonResponse(data)  
       
 
+class CategoryView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+     
+    def get(self,request):    
+        categories = list(CategoriaCard.objects.values())
+       # cards = shuffle(cards)
+        if len(categories) > 0:
+            data = {'categories': categories}
+        else:
+            data = {'message': 'card not found'}
+        # sleep(1.3)
+        return JsonResponse(data)
+
 
 class userView(View):
     @method_decorator(csrf_exempt)
