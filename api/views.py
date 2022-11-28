@@ -92,7 +92,7 @@ class userView(View):
       #   print(jd)
 
         User.objects.create_user(
-            username=jd['username'], email=jd['email'], password=jd['password'])
+            username=jd['username'], email=jd['email'], password=jd['password'],premium=[True])
         data = {'message': 'success'}
         return JsonResponse(data)
 
