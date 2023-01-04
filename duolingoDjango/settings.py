@@ -146,27 +146,27 @@ DATABASES = {
 
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'railway',
-#         'USER': 'postgres',
-#         'PASSWORD': 'KrtAJNDowNwZuNiByK95',
-#         'HOST': 'containers-us-west-121.railway.app',
-#         'PORT': '6873',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'englishapp',
-        'USER': 'yair',
-        'PASSWORD': 'xrl8xdgta',
-        'HOST': 'english.cygnge9l9zrg.us-east-2.rds.amazonaws.com',
-        'PORT': '5432',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'KrtAJNDowNwZuNiByK95',
+        'HOST': 'containers-us-west-121.railway.app',
+        'PORT': '6873',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'englishapp',
+#         'USER': 'yair',
+#         'PASSWORD': 'xrl8xdgta',
+#         'HOST': 'english.cygnge9l9zrg.us-east-2.rds.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 
 
