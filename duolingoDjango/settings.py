@@ -213,7 +213,6 @@ AUTH_USER_MODEL = 'api.UserModel'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STRIPE_SECRET_KEY = 'sk_test_51KjBqNA9KCn8yVMONc3gFAYwrG6HbwHVDeQ3sxLolr9K5iJHSXRmm8FXpkRFtJp7n5WWCjVjmCOlyHYObMnSVRlL00Y6KfPvVR'
 
 STATIC_FILES = (os.path.join(BASE_DIR, 'duolingoDjango/static')),
 
@@ -238,7 +237,7 @@ CLOUDINARY_STORAGE = {
      'EXCLUDE_DELETE_ORPHANED_MEDIA_PATHS': ('Home/media/cards','Home')
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-OPEN_AI_KEY = "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"
+OPEN_AI_KEY = "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"
 # # JAZZMIN_SETTINGS["show_ui_builder"] = True
 # MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'mediafiles')
 # MEDIA_URL = '/media/'
