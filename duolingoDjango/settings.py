@@ -238,7 +238,7 @@ CLOUDINARY_STORAGE = {
      'EXCLUDE_DELETE_ORPHANED_MEDIA_PATHS': ('Home/media/cards','Home')
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
+OPEN_AI_KEY = "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"
 # # JAZZMIN_SETTINGS["show_ui_builder"] = True
 # MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'mediafiles')
 # MEDIA_URL = '/media/'

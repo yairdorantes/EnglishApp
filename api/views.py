@@ -15,8 +15,13 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
 from time import sleep
+from django.conf import settings
 import base64
 from django.core.files.base import ContentFile
+import openai
+import random
+openai.api_key = settings.OPEN_AI_KEY
+model_engine = "text-davinci-003"
 
 User = get_user_model()
 
@@ -31,6 +36,23 @@ class TopUsers(View):
         return JsonResponse({"topuser":top_users})
 
 
+
+class Phrases(View):
+    def get(self,request,word):
+        prompt = f"create a phrase that includes the word {word}"
+        completions = openai.Completion.create(
+            engine=model_engine,
+            prompt=prompt,
+            max_tokens=1000,
+            n=5,  # increase the number of generated phrases
+            stop=None,
+            temperature=0.9  # increase the temperature
+            )
+        selected_phrase = random.choice(completions.choices)
+        print(selected_phrase.text)
+
+     
+        return JsonResponse({"phrase": selected_phrase.text.strip()})
 
 
 
@@ -345,6 +367,3 @@ class userToPremium(View):
 
 
 # This is your test secret API key.
-# stripe.api_key = settings.STRIPE_SECRET_KEY
-
-
