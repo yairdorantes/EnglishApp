@@ -15,15 +15,16 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
 from time import sleep
-from django.conf import settings
 import base64
 from django.core.files.base import ContentFile
 import openai
 import random
-openai.api_key = settings.OPEN_AI_KEY
+import os
+openai.api_key = os.environ["OPEN_AI_KEY"]
 model_engine = "text-davinci-003"
 
 User = get_user_model()
+# print(os.environ["OPEN_AI_KEY"],"loli")
 
  
 class TopUsers(View):
