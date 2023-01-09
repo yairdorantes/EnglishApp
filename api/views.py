@@ -35,7 +35,7 @@ class TopUsers(View):
         top_users = list(UserModel.objects.all().order_by('-score')[:3].values())
         print(top_users)
         return JsonResponse({"topuser":top_users})
-
+# k
 
 
 class Phrases(View):
