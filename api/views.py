@@ -252,21 +252,6 @@ class PostView(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    def get(self, request, id=0):
-
-        if (id > 0):
-            liked_posts = list(Post.objects.filter(
-                likes=id).values("id"))
-            if len(liked_posts) > 0:
-                data = {"posts_liked_by_user": liked_posts}
-
-        else:
-            posts = list(Post.objects.values())
-            if len(posts) > 0:
-                data = {'posts': posts}
-            else:
-                data = {'message': 'post not found'}
-        return JsonResponse(data)
 
     def post(self, request):
         # print(request.body)
