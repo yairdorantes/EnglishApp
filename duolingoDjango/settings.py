@@ -35,8 +35,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000',
-                         'https://symptomatic-cent-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
