@@ -157,6 +157,8 @@ class cardView(View):
             cards = list(Cards.objects.filter(categoria=CategoriaCard.objects.get(name=section)).values())
             # cards = list(Cards.objects.filter(id=1).values())
             if len(cards)>0:
+                random.shuffle(cards)
+
                 data = {'message':'success', 'cards': cards}
             else:
                 data = {'message':" no cards found"}
@@ -164,6 +166,8 @@ class cardView(View):
         if id>0:
             cards = list(Cards.objects.filter(owner_id=id).values())
             if len(cards) > 0:
+                random.shuffle(cards)
+               
                 data = {'message': 'success', 'cards': cards}
             else:
                 data = {'message': 'no cards'}
@@ -171,8 +175,8 @@ class cardView(View):
 
         else:
             cards = list(Cards.objects.values())
-       # cards = shuffle(cards)
             if len(cards) > 0:
+                random.shuffle(cards)
                 data = {'message': 'success', 'cards': cards}
             else:
                 data = {'message': 'card not found'}
