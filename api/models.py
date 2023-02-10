@@ -3,6 +3,12 @@
 from django.db import models
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_save
+            
+from gtts import gTTS
+import base64
+from io import BytesIO
+from django.contrib import admin
 
 # class MaxCard(models.Model):
 #     maximum = models.IntegerField(default=)
@@ -23,7 +29,7 @@ class CategoriaCard(models.Model):
         max_length=100,  unique=False, verbose_name='Category Cards',null=True)
     icon = models.URLField(default="http://127.0.0.1:8000/",verbose_name="icon source")
     bg_image = models.URLField(default="http://127.0.0.1:8000/",verbose_name="background source")
-    class meta:
+    class Meta:
         verbose_name = 'Category Cards'
        # ordering = ['id']
 
@@ -36,6 +42,7 @@ class Cards(models.Model):
     categoria = models.ForeignKey(CategoriaCard,on_delete=models.CASCADE,null=True,blank=True)
     cardTitle = models.CharField(max_length=50, verbose_name='Card title')
     cardMeaning = models.CharField(max_length=50, verbose_name='Card meaning')
+    cardSound  = models.TextField( verbose_name='Sound Src',blank=True,null=True)
     cardImage = models.ImageField(verbose_name='Card image', upload_to='cards',null=True, blank=True,)
     imageURL = models.URLField(
        blank=True, verbose_name='Image source')
@@ -49,13 +56,31 @@ class Cards(models.Model):
     def __str__(self):
         return self.cardTitle
 
+def change_sound(sender,instance,**kwargs):
+    text = instance.cardTitle
+            # Create an instance of gTTS
+    tts = gTTS(text=text, lang='en')
+            # Create a memory buffer to store the binary data
+    buffer = BytesIO()
+            # Write the audio data to the memory buffer
+    tts.write_to_fp(buffer)
+            # Rewind the buffer to the beginning
+    buffer.seek(0)
+            # Encode the binary data into a base64 string
+    audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
+    Cards.objects.filter(id=instance.id).update(cardSound=audio_base64)
+    
+    # print("**********nicee jaaha*h/************")
+post_save.connect(change_sound,sender=Cards)
+
+
 class CategoriaPost(models.Model):
     name = models.CharField(
         max_length=100, null=False, unique=False, verbose_name='Category Post')
     color = models.CharField(
         max_length=100, verbose_name='color ategory', default='#FFFFFF')
 
-    class meta:
+    class Meta:
         verbose_name = 'Category'
        # ordering = ['id']
 
@@ -112,3 +137,4 @@ MODELS
     class Meta:
         ordering = ["positionCard"]
 """
+

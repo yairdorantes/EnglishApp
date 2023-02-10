@@ -14,11 +14,16 @@ from rest_framework.decorators import api_view
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
-from time import sleep
+# from time import sleep
 import base64
 from django.core.files.base import ContentFile
 import openai
 import random
+            
+from gtts import gTTS
+import base64
+from io import BytesIO
+
 import os
 openai.api_key = os.environ["OPEN_AI_KEY"]
 model_engine = "text-davinci-003"
@@ -189,19 +194,44 @@ class cardView(View):
             format,imgstr = base64Image.split(";base64,")
             ext = format.split('/')[-1]
             dataFile = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+        
+            text = jd["title"]
+            # Create an instance of gTTS
+            tts = gTTS(text=text, lang='en')
+            # Create a memory buffer to store the binary data
+            buffer = BytesIO()
+            # Write the audio data to the memory buffer
+            tts.write_to_fp(buffer)
+            # Rewind the buffer to the beginning
+            buffer.seek(0)
+            # Encode the binary data into a base64 string
+            audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
+            # print(audio_base64)
 
             card = Cards.objects.create(owner_id=jd["user"],
             cardTitle=jd['title'],
              cardMeaning=jd["meaning"],
-            cardImage=dataFile)
+            cardImage=dataFile,cardSound=audio_base64)
             card.save()
             data = {'message': 'success'}
         except:
+            text = jd["title"]
+            # Create an instance of gTTS
+            tts = gTTS(text=text, lang='en')
+            # Create a memory buffer to store the binary data
+            buffer = BytesIO()
+            # Write the audio data to the memory buffer
+            tts.write_to_fp(buffer)
+            # Rewind the buffer to the beginning
+            buffer.seek(0)
+            # Encode the binary data into a base64 string
+            audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
+            print("paso aqui")
             card = Cards.objects.create(owner_id=jd["user"],
             cardTitle=jd['title'],
             cardMeaning=jd["meaning"],
             cardImage="",
-            imageURL=jd["img_url"])
+            imageURL=jd["img_url"],cardSound=audio_base64)
             card.save()
             data = {'message': 'success'}
         return JsonResponse(data)
