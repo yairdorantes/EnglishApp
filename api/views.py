@@ -24,7 +24,10 @@ from gtts import gTTS
 import base64
 from io import BytesIO
 
+# jaja
 import os
+
+
 # openai.api_key = os.environ["OPEN_AI_KEY"]
 model_engine = "text-davinci-003"
 
