@@ -17,7 +17,7 @@ from django.contrib.auth import get_user_model
 # from time import sleep
 import base64
 from django.core.files.base import ContentFile
-import openai
+# import openai
 import random
             
 from gtts import gTTS
@@ -25,7 +25,7 @@ import base64
 from io import BytesIO
 
 import os
-openai.api_key = os.environ["OPEN_AI_KEY"]
+# openai.api_key = os.environ["OPEN_AI_KEY"]
 model_engine = "text-davinci-003"
 
 User = get_user_model()
