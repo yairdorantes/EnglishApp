@@ -26,8 +26,7 @@ from io import BytesIO
 import os
 # jaja
 
-r=redis.Redis(host='localhost',port=6379,db=0)
-
+r=redis.Redis(host='containers-us-west-177.railway.app',port=6091,password='wBW5LUEzyADNvF1K8thZ')
 
 User = get_user_model()
 # print(os.environ["OPEN_AI_KEY"],"loli")
