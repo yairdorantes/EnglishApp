@@ -19,17 +19,15 @@ import base64
 from django.core.files.base import ContentFile
 # import openai
 import random
-            
+import redis 
 from gtts import gTTS
 import base64
 from io import BytesIO
-
-# jaja
 import os
+# jaja
 
+r=redis.Redis(host='localhost',port=6379,db=0)
 
-# openai.api_key = os.environ["OPEN_AI_KEY"]
-model_engine = "text-davinci-003"
 
 User = get_user_model()
 # print(os.environ["OPEN_AI_KEY"],"loli")
@@ -45,23 +43,6 @@ class TopUsers(View):
         return JsonResponse({"topuser":top_users})
 # k
 
-
-class Phrases(View):
-    def get(self,request,word):
-        prompt = f"create a phrase that includes the word {word}"
-        completions = openai.Completion.create(
-            engine=model_engine,
-            prompt=prompt,
-            max_tokens=1000,
-            n=5,  # increase the number of generated phrases
-            stop=None,
-            temperature=0.9  # increase the temperature
-            )
-        selected_phrase = random.choice(completions.choices)
-        print(selected_phrase.text)
-
-     
-        return JsonResponse({"phrase": selected_phrase.text.strip()})
 
 
 
@@ -85,14 +66,16 @@ class CategoryView(View):
         return super().dispatch(request, *args, **kwargs)
      
     def get(self,request):    
-        categories = list(CategoriaCard.objects.values())
-       # cards = shuffle(cards)
-        if len(categories) > 0:
-            data = {'categories': categories}
+        saved_categorys = r.get("categories")
+        if saved_categorys:
+            categories = json.loads(saved_categorys)
         else:
-            data = {'message': 'card not found'}
+            r.set("categories",json.dumps({"categories": list(CategoriaCard.objects.values())}))
+            categories = {"categories": list(CategoriaCard.objects.values())}
+       # cards = shuffle(cards)
+       
         # sleep(1.3)
-        return JsonResponse(data)
+        return JsonResponse(categories)
 
 
 class userView(View):
@@ -110,6 +93,7 @@ class userView(View):
                 data = {'message': 'user not found'}
             return JsonResponse(data)
         else:
+            
             users = list(User.objects.values())
         if len(users) > 0:
             data = {'message': 'success', 'users': users}
