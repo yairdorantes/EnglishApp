@@ -9,118 +9,377 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('auth', '0012_alter_user_first_name_max_length'),
+        ("auth", "0012_alter_user_first_name_max_length"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='UserModel',
+            name="UserModel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
-                ('username', models.CharField(error_messages={'unique': 'A user with that username already exists.'}, help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.', max_length=150, unique=True, validators=[django.contrib.auth.validators.UnicodeUsernameValidator()], verbose_name='username')),
-                ('first_name', models.CharField(blank=True, max_length=150, verbose_name='first name')),
-                ('last_name', models.CharField(blank=True, max_length=150, verbose_name='last name')),
-                ('email', models.EmailField(blank=True, max_length=254, verbose_name='email address')),
-                ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
-                ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
-                ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('premium', models.BooleanField(default=False, verbose_name='premium')),
-                ('score', models.IntegerField(default=0, null=True)),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
-                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "last_login",
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="last login"
+                    ),
+                ),
+                (
+                    "is_superuser",
+                    models.BooleanField(
+                        default=False,
+                        help_text="Designates that this user has all permissions without explicitly assigning them.",
+                        verbose_name="superuser status",
+                    ),
+                ),
+                (
+                    "username",
+                    models.CharField(
+                        error_messages={
+                            "unique": "A user with that username already exists."
+                        },
+                        help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+                        max_length=150,
+                        unique=True,
+                        validators=[
+                            django.contrib.auth.validators.UnicodeUsernameValidator()
+                        ],
+                        verbose_name="username",
+                    ),
+                ),
+                (
+                    "first_name",
+                    models.CharField(
+                        blank=True, max_length=150, verbose_name="first name"
+                    ),
+                ),
+                (
+                    "last_name",
+                    models.CharField(
+                        blank=True, max_length=150, verbose_name="last name"
+                    ),
+                ),
+                (
+                    "email",
+                    models.EmailField(
+                        blank=True, max_length=254, verbose_name="email address"
+                    ),
+                ),
+                (
+                    "is_staff",
+                    models.BooleanField(
+                        default=False,
+                        help_text="Designates whether the user can log into this admin site.",
+                        verbose_name="staff status",
+                    ),
+                ),
+                (
+                    "is_active",
+                    models.BooleanField(
+                        default=True,
+                        help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
+                        verbose_name="active",
+                    ),
+                ),
+                (
+                    "date_joined",
+                    models.DateTimeField(
+                        default=django.utils.timezone.now, verbose_name="date joined"
+                    ),
+                ),
+                ("premium", models.BooleanField(default=False, verbose_name="premium")),
+                ("score", models.IntegerField(default=0, null=True)),
+                (
+                    "groups",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.group",
+                        verbose_name="groups",
+                    ),
+                ),
+                (
+                    "user_permissions",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Specific permissions for this user.",
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.permission",
+                        verbose_name="user permissions",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'user',
-                'verbose_name_plural': 'users',
-                'abstract': False,
+                "verbose_name": "user",
+                "verbose_name_plural": "users",
+                "abstract": False,
             },
             managers=[
-                ('objects', django.contrib.auth.models.UserManager()),
+                ("objects", django.contrib.auth.models.UserManager()),
             ],
         ),
         migrations.CreateModel(
-            name='CategoriaCard',
+            name="CategoriaCard",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, null=True, verbose_name='Category Cards')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=100, null=True, verbose_name="Category Cards"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='CategoriaPost',
+            name="CategoriaPost",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Category Post')),
-                ('color', models.CharField(default='#FFFFFF', max_length=100, verbose_name='color ategory')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=100, verbose_name="Category Post"),
+                ),
+                (
+                    "color",
+                    models.CharField(
+                        default="#FFFFFF", max_length=100, verbose_name="color ategory"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ShortsV2',
+            name="ShortsV2",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('short_name', models.CharField(max_length=50, verbose_name='Short name')),
-                ('video', models.FileField(blank=True, null=True, upload_to='shorts', verbose_name='VideoFile')),
-                ('short_url', models.URLField(default='http://127.0.0.1:8000/', verbose_name='Short URL')),
-                ('translation', models.TextField(blank=True, verbose_name='Translation')),
-                ('question', models.CharField(max_length=100, verbose_name='Question')),
-                ('user_answered', models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "short_name",
+                    models.CharField(max_length=50, verbose_name="Short name"),
+                ),
+                (
+                    "video",
+                    models.FileField(
+                        blank=True,
+                        null=True,
+                        upload_to="shorts",
+                        verbose_name="VideoFile",
+                    ),
+                ),
+                (
+                    "short_url",
+                    models.URLField(
+                        default="http://127.0.0.1:8000/", verbose_name="Short URL"
+                    ),
+                ),
+                (
+                    "translation",
+                    models.TextField(blank=True, verbose_name="Translation"),
+                ),
+                ("question", models.CharField(max_length=100, verbose_name="Question")),
+                (
+                    "user_answered",
+                    models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Post',
+            name="Post",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.FileField(upload_to='PostImage', verbose_name='Post image')),
-                ('title', models.CharField(max_length=500, verbose_name='Post title')),
-                ('content', models.TextField(blank=True, verbose_name='Post content')),
-                ('image_src', models.URLField(default='http://127.0.0.1:8000/<django.db.models.fields.files.FileField>', verbose_name='post image source ')),
-                ('likes_count', models.IntegerField(default=0, verbose_name='Post likes counter')),
-                ('categoria', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='api.categoriapost')),
-                ('likes', models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL, verbose_name='Post likes')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "image",
+                    models.FileField(upload_to="PostImage", verbose_name="Post image"),
+                ),
+                ("title", models.CharField(max_length=500, verbose_name="Post title")),
+                ("content", models.TextField(blank=True, verbose_name="Post content")),
+                (
+                    "image_src",
+                    models.URLField(
+                        default="http://127.0.0.1:8000/<django.db.models.fields.files.FileField>",
+                        verbose_name="post image source ",
+                    ),
+                ),
+                (
+                    "likes_count",
+                    models.IntegerField(default=0, verbose_name="Post likes counter"),
+                ),
+                (
+                    "categoria",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="api.categoriapost",
+                    ),
+                ),
+                (
+                    "likes",
+                    models.ManyToManyField(
+                        blank=True,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Post likes",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Comment',
+            name="Comment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('author', models.CharField(max_length=255)),
-                ('text', models.TextField(blank=True, verbose_name='comment')),
-                ('created_date', models.CharField(max_length=255)),
-                ('approved_comment', models.BooleanField(default=True)),
-                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='api.post')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("author", models.CharField(max_length=255)),
+                ("text", models.TextField(blank=True, verbose_name="comment")),
+                ("created_date", models.CharField(max_length=255)),
+                ("approved_comment", models.BooleanField(default=True)),
+                (
+                    "post",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="comments",
+                        to="api.post",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-id'],
+                "ordering": ["-id"],
             },
         ),
         migrations.CreateModel(
-            name='Cards',
+            name="Cards",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('cardTitle', models.CharField(max_length=50, verbose_name='Card title')),
-                ('cardMeaning', models.CharField(max_length=50, verbose_name='Card meaning')),
-                ('cardImage', models.ImageField(blank=True, null=True, upload_to='cards', verbose_name='Card image')),
-                ('imageURL', models.URLField(blank=True, verbose_name='Image source')),
-                ('categoria', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='api.categoriacard')),
-                ('owner', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "cardTitle",
+                    models.CharField(max_length=50, verbose_name="Card title"),
+                ),
+                (
+                    "cardMeaning",
+                    models.CharField(max_length=50, verbose_name="Card meaning"),
+                ),
+                (
+                    "cardImage",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to="cards",
+                        verbose_name="Card image",
+                    ),
+                ),
+                ("imageURL", models.URLField(blank=True, verbose_name="Image source")),
+                (
+                    "categoria",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="api.categoriacard",
+                    ),
+                ),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-id'],
+                "ordering": ["-id"],
             },
         ),
         migrations.CreateModel(
-            name='AnswersForShortsV2',
+            name="AnswersForShortsV2",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('answer_text', models.CharField(default='', max_length=100, verbose_name='Answer text')),
-                ('is_correct', models.BooleanField(choices=[(True, 'Yes'), (False, 'No')], default=False)),
-                ('parent_question', models.ForeignKey(default='', on_delete=django.db.models.deletion.CASCADE, related_name='answers', to='api.shortsv2')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "answer_text",
+                    models.CharField(
+                        default="", max_length=100, verbose_name="Answer text"
+                    ),
+                ),
+                (
+                    "is_correct",
+                    models.BooleanField(
+                        choices=[(True, "Yes"), (False, "No")], default=False
+                    ),
+                ),
+                (
+                    "parent_question",
+                    models.ForeignKey(
+                        default="",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="answers",
+                        to="api.shortsv2",
+                    ),
+                ),
             ],
         ),
     ]

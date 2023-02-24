@@ -1,5 +1,4 @@
-
-from .models import  CategoriaPost, Post
+from .models import CategoriaPost, Post
 from rest_framework import serializers
 
 
@@ -26,11 +25,11 @@ class CategorySerializer(serializers.ModelSerializer):
 
 # ##############################################
 
+
 class PostSerializer(serializers.ModelSerializer):
     categoria = CategorySerializer()
-  #  comments = CommentSerializer()
+    #  comments = CommentSerializer()
 
     class Meta:
         model = Post
         fields = "__all__"
-

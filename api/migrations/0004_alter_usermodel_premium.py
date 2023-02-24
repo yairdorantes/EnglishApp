@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0003_categoriacard_bg_image_categoriacard_icon_and_more'),
+        ("api", "0003_categoriacard_bg_image_categoriacard_icon_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='usermodel',
-            name='premium',
-            field=models.BooleanField(default=True, verbose_name='premium'),
+            model_name="usermodel",
+            name="premium",
+            field=models.BooleanField(default=True, verbose_name="premium"),
         ),
     ]

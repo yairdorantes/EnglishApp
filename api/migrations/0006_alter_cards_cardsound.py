@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0005_cards_cardsound'),
+        ("api", "0005_cards_cardsound"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='cards',
-            name='cardSound',
-            field=models.CharField(blank=True, max_length=200, null=True, verbose_name='sound src'),
+            model_name="cards",
+            name="cardSound",
+            field=models.CharField(
+                blank=True, max_length=200, null=True, verbose_name="sound src"
+            ),
         ),
     ]

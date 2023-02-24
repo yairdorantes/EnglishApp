@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0009_alter_cards_options'),
+        ("api", "0009_alter_cards_options"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='cards',
-            options={'ordering': ['-id']},
+            name="cards",
+            options={"ordering": ["-id"]},
         ),
     ]
