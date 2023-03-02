@@ -246,17 +246,19 @@ class cardView(View):
     def put(self, request, id):
         jd = json.loads(request.body)
         card_to_edit = Cards.objects.get(id=id)
-        print(len(jd["file"]))
-        if len(jd["file"]) > 0:
-            base64Image = jd["file"]
-            format, imgstr = base64Image.split(";base64,")
-            ext = format.split("/")[-1]
-            dataFile = ContentFile(base64.b64decode(imgstr), name="temp." + ext)
-            card_to_edit.cardImage = dataFile
-            card_to_edit.imageURL = ""
-        if len(jd["img_url"]) > 0:
-            card_to_edit.imageURL = jd["img_url"]
-            card_to_edit.cardImage = ""
+        print(card_to_edit.cardImage)
+        # print(len(jd["file"]))
+        if(card_to_edit.cardImage!=jd["file"] or card_to_edit.imageURL!=jd["img_url"]):        
+            if len(jd["file"]) > 0:
+                base64Image = jd["file"]
+                format, imgstr = base64Image.split(";base64,")
+                ext = format.split("/")[-1]
+                dataFile = ContentFile(base64.b64decode(imgstr), name="temp." + ext)
+                card_to_edit.cardImage = dataFile
+                card_to_edit.imageURL = ""
+            if len(jd["img_url"]) > 0:
+                card_to_edit.imageURL = jd["img_url"]
+                card_to_edit.cardImage = ""
         card_to_edit.cardTitle = jd["title"]
         card_to_edit.cardMeaning = jd["meaning"]
         card_to_edit.save()
