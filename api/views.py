@@ -4,6 +4,7 @@ from .models import Cards, Comment, Post, UserModel, CategoriaCard
 from rest_framework import viewsets
 from .serializers import PostSerializer
 from django.http.response import JsonResponse
+from django.http import HttpResponse
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
@@ -110,8 +111,8 @@ class userView(View):
         User.objects.create_user(
             username=jd["username"], email=jd["email"], password=jd["password"]
         )
-        data = {"message": "success"}
-        return JsonResponse(data)
+       
+        return HttpResponse("success", status=200)
 
     def put(self, request, id):
         jd = json.loads(request.body)
