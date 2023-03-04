@@ -38,6 +38,7 @@ ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
     "https://yairmaster.ddns.net",
     "https://symptomatic-cent-production.up.railway.app/",
+    "http://localhost:3000"
 ]
 # Application definition
 
