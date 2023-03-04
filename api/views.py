@@ -47,7 +47,7 @@ class TopUsers(View):
 
     def get(self, request):
         top_users = list(UserModel.objects.all().order_by("-score")[:3].values())
-        print(top_users)
+        # print(top_users)
         return JsonResponse({"topuser": top_users})
 
 
@@ -230,7 +230,7 @@ class cardView(View):
             buffer.seek(0)
             # Encode the binary data into a base64 string
             audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
-            print("paso aqui")
+            # print("paso aqui")
             card = Cards.objects.create(
                 owner_id=jd["user"],
                 cardTitle=jd["title"],
@@ -246,7 +246,7 @@ class cardView(View):
     def put(self, request, id):
         jd = json.loads(request.body)
         card_to_edit = Cards.objects.get(id=id)
-        print(card_to_edit.cardImage)
+        # print(card_to_edit.cardImage)
         # print(len(jd["file"]))
         if(card_to_edit.cardImage!=jd["file"] or card_to_edit.imageURL!=jd["img_url"]):        
             if len(jd["file"]) > 0:

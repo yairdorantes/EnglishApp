@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.5e41a789.css",
-    "main.js": "/static/js/main.dbc07f04.js",
+    "main.css": "/static/css/main.31864371.css",
+    "main.js": "/static/js/main.bdfcec90.js",
     "static/js/787.ec704a7a.chunk.js": "/static/js/787.ec704a7a.chunk.js",
     "static/media/cards.png": "/static/media/cards.e1d844567762b632fa65.png",
     "static/media/first.png": "/static/media/first.b40d60fbc596684fc21f.png",
@@ -12,6 +12,7 @@
     "static/media/blog.png": "/static/media/blog.1296d1ba0b5538935c29.png",
     "static/media/casa.png": "/static/media/casa.509be63fc27ab3d4f667.png",
     "static/media/second.png": "/static/media/second.b6d8bc85b17aef345e51.png",
+    "static/media/menu1.png": "/static/media/menu1.370ab406f01a9c697873.png",
     "static/media/vip.png": "/static/media/vip.34ed9cc3104f45d3aa3d.png",
     "static/media/user.png": "/static/media/user.45a0af68515332b42be9.png",
     "static/media/audio.png": "/static/media/audio.6b9dd21404ddf0ecef0a.png",
@@ -21,12 +22,12 @@
     "static/media/lapiz.png": "/static/media/lapiz.4f5f007ff0c0f8759105.png",
     "static/media/add.png": "/static/media/add.2b8d4d925aa7161c1819.png",
     "index.html": "/index.html",
-    "main.5e41a789.css.map": "/static/css/main.5e41a789.css.map",
-    "main.dbc07f04.js.map": "/static/js/main.dbc07f04.js.map",
+    "main.31864371.css.map": "/static/css/main.31864371.css.map",
+    "main.bdfcec90.js.map": "/static/js/main.bdfcec90.js.map",
     "787.ec704a7a.chunk.js.map": "/static/js/787.ec704a7a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5e41a789.css",
-    "static/js/main.dbc07f04.js"
+    "static/css/main.31864371.css",
+    "static/js/main.bdfcec90.js"
   ]
 }
