@@ -74,17 +74,8 @@ class CategoryView(View):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request):
-        saved_categorys = r.get("categories")
-        if saved_categorys:
-            categories = json.loads(saved_categorys)
-        else:
-            r.set(
-                "categories",
-                json.dumps({"categories": list(CategoriaCard.objects.values())}),
-            )
-            categories = {"categories": list(CategoriaCard.objects.values())}
+        categories = {"categories": list(CategoriaCard.objects.values())}
         # cards = shuffle(cards)
-
         # sleep(1.3)
         return JsonResponse(categories)
 
