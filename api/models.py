@@ -15,6 +15,7 @@ from django.contrib import admin
 class UserModel(AbstractUser):
     premium = models.BooleanField(default=True, verbose_name="premium")
     score = models.IntegerField(default=0, null=True)
+    # utc=models.BooleanField(default=False, verbose_name="UTC alumno")
     # username = models.CharField(max_length=100, verbose_name='User name')
     # email = models.EmailField(verbose_name='User email',unique=True)
     # password = models.CharField(max_length=128, verbose_name='password')

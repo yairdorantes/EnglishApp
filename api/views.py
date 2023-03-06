@@ -16,6 +16,7 @@ from rest_framework.decorators import api_view
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 
 # from time import sleep
 import base64
@@ -107,12 +108,14 @@ class userView(View):
         # print(request.body)
         jd = json.loads(request.body)
         #   print(jd)
+        try:           
+            User.objects.create_user(
+                username=jd["username"], email=jd["email"], password=jd["password"]
+            )
+            return HttpResponse("success", status=200)
+        except IntegrityError:
+            return HttpResponse('Nombre de usuario ocupado elige otro',status=409)
 
-        User.objects.create_user(
-            username=jd["username"], email=jd["email"], password=jd["password"]
-        )
-       
-        return HttpResponse("success", status=200)
 
     def put(self, request, id):
         jd = json.loads(request.body)
