@@ -1,5 +1,13 @@
 from django.contrib import admin
-from .models import CategoriaCard, Comment, UserModel, Cards, CategoriaPost, Post
+from .models import (
+    CategoriaCard,
+    Comment,
+    UserModel,
+    Cards,
+    CategoriaPost,
+    Post,
+    VerbsModel,
+)
 from django.contrib.auth.admin import UserAdmin
 
 # class EmailExtensionFilter(admin.SimpleListFilter):
@@ -27,4 +35,4 @@ from django.contrib.auth.admin import UserAdmin
 #     )
 
 admin.site.register(UserModel)
-admin.site.register([Cards, CategoriaPost, Post, Comment, CategoriaCard])
+admin.site.register([Cards, CategoriaPost, Post, Comment, CategoriaCard, VerbsModel])

@@ -1,6 +1,6 @@
 import json
 from django.views import View
-from .models import Cards, Comment, Post, UserModel, CategoriaCard
+from .models import Cards, Comment, Post, UserModel, CategoriaCard, VerbsModel
 from rest_framework import viewsets
 from .serializers import PostSerializer
 from django.http.response import JsonResponse
@@ -56,6 +56,14 @@ class TopUsers(View):
 # k
 
 
+class VerbsView(View):
+    def get(self, request, user):
+        if user > 0:
+            verbs = list(VerbsModel.objects.filter(owner=user).values())
+            print(verbs)
+            return JsonResponse({"verbs": verbs})
+
+
 class IncreaseScore(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -108,14 +116,13 @@ class userView(View):
         # print(request.body)
         jd = json.loads(request.body)
         #   print(jd)
-        try:           
+        try:
             User.objects.create_user(
                 username=jd["username"], email=jd["email"], password=jd["password"]
             )
             return HttpResponse("success", status=200)
         except IntegrityError:
-            return HttpResponse('Nombre de usuario ocupado elige otro',status=409)
-
+            return HttpResponse("Nombre de usuario ocupado elige otro", status=409)
 
     def put(self, request, id):
         jd = json.loads(request.body)
@@ -243,7 +250,10 @@ class cardView(View):
         card_to_edit = Cards.objects.get(id=id)
         # print(card_to_edit.cardImage)
         # print(len(jd["file"]))
-        if(card_to_edit.cardImage!=jd["file"] or card_to_edit.imageURL!=jd["img_url"]):        
+        if (
+            card_to_edit.cardImage != jd["file"]
+            or card_to_edit.imageURL != jd["img_url"]
+        ):
             if len(jd["file"]) > 0:
                 base64Image = jd["file"]
                 format, imgstr = base64Image.split(";base64,")

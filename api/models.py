@@ -86,7 +86,7 @@ def change_sound(sender, instance, **kwargs):
     audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
     Cards.objects.filter(id=instance.id).update(cardSound=audio_base64)
 
-    # print("**********nicee jaaha*h/************")
+    print("sound changed")
 
 
 post_save.connect(change_sound, sender=Cards)
@@ -107,6 +107,70 @@ class CategoriaPost(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class VerbsModel(models.Model):
+    owner = models.ForeignKey(
+        UserModel, on_delete=models.CASCADE, null=True, blank=True
+    )
+    infinitive = models.CharField(max_length=50, verbose_name="Infinitive")
+    past = models.CharField(max_length=50, verbose_name="past")
+    participle = models.CharField(max_length=50, verbose_name="participle")
+    spanish = models.CharField(max_length=50, verbose_name="spanish")
+    inf_sound = models.TextField(verbose_name="sound", default="")
+    past_sound = models.TextField(verbose_name="sound", default="")
+    participle_sound = models.TextField(verbose_name="sound", default="")
+
+    def __str__(self):
+        return self.infinitive
+
+
+# def convert_text_to_sound(text):
+#     # Create an instance of gTTS
+#     tts = gTTS(text=text, lang="en")
+#     # Create a memory buffer to store the binary data
+#     buffer = BytesIO()
+#     # Write the audio data to the memory buffer
+#     tts.write_to_fp(buffer)
+#     # Rewind the buffer to the beginning
+#     buffer.seek(0)
+#     # Encode the binary data into a base64 string
+#     audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
+
+
+#     return audio_base64
+import base64
+import io
+import time
+
+
+def convert_text_to_sound(text):
+    # Create an instance of gTTS
+    tts = gTTS(text=text, lang="en")
+    # Create a memory buffer to store the binary data
+    buffer = BytesIO()
+    # Write the audio data to the memory buffer
+    tts.write_to_fp(buffer)
+    # Rewind the buffer to the beginning
+    buffer.seek(0)
+    # Encode the binary data into a base64 string
+    audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
+    return audio_base64
+
+
+def set_sound_verbs(sender, instance, **kwargs):
+    audio_base64_1 = convert_text_to_sound(instance.infinitive)
+    audio_base64_2 = convert_text_to_sound(instance.past)
+    audio_base64_3 = convert_text_to_sound(instance.participle)
+    VerbsModel.objects.filter(id=instance.id).update(
+        inf_sound=audio_base64_1,
+        past_sound=audio_base64_2,
+        participle_sound=audio_base64_3,
+    )
+    print("sound changed")
+
+
+post_save.connect(set_sound_verbs, sender=VerbsModel)
 
 
 class Post(models.Model):
@@ -147,9 +211,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
-
-
-
 
 
 """

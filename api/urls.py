@@ -19,6 +19,7 @@ from .views import (
     TopUsers,
     IncreaseScore,
     CategoryView,
+    VerbsView,
 )
 
 from rest_framework.routers import DefaultRouter
@@ -49,6 +50,7 @@ urlpatterns = [
     path("comments/<int:id>", CommentView.as_view(), name="liked posts by user"),
     path("topusers/", TopUsers.as_view(), name="top users"),
     path("increase/<int:id>", IncreaseScore.as_view(), name="increase score"),
+    path("verbs/<int:user>", VerbsView.as_view(), name="user verbs"),
     path("", include(router.urls)),
 ]
 # khk
