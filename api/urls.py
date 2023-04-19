@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import (
 from xml.etree.ElementInclude import include
 from django.urls import path, include
 
+from django.views.decorators.csrf import csrf_exempt
 
 from .views import (
     userView,
@@ -50,7 +51,8 @@ urlpatterns = [
     path("comments/<int:id>", CommentView.as_view(), name="liked posts by user"),
     path("topusers/", TopUsers.as_view(), name="top users"),
     path("increase/<int:id>", IncreaseScore.as_view(), name="increase score"),
-    path("verbs/<int:user>", VerbsView.as_view(), name="user verbs"),
+    path("verbs/<int:user>", csrf_exempt(VerbsView.as_view()), name="user verbs"),
+    path("verbs", csrf_exempt(VerbsView.as_view()), name="user verbs"),
     path("", include(router.urls)),
 ]
 # khk

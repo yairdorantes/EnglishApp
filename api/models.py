@@ -117,9 +117,9 @@ class VerbsModel(models.Model):
     past = models.CharField(max_length=50, verbose_name="past")
     participle = models.CharField(max_length=50, verbose_name="participle")
     spanish = models.CharField(max_length=50, verbose_name="spanish")
-    inf_sound = models.TextField(verbose_name="sound", default="")
-    past_sound = models.TextField(verbose_name="sound", default="")
-    participle_sound = models.TextField(verbose_name="sound", default="")
+    inf_sound = models.TextField(verbose_name="sound", default="", blank=True)
+    past_sound = models.TextField(verbose_name="sound", default="", blank=True)
+    participle_sound = models.TextField(verbose_name="sound", default="", blank=True)
 
     def __str__(self):
         return self.infinitive
@@ -140,8 +140,6 @@ class VerbsModel(models.Model):
 
 #     return audio_base64
 import base64
-import io
-import time
 
 
 def convert_text_to_sound(text):

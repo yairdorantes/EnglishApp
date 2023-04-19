@@ -60,8 +60,24 @@ class VerbsView(View):
     def get(self, request, user):
         if user > 0:
             verbs = list(VerbsModel.objects.filter(owner=user).values())
-            print(verbs)
             return JsonResponse({"verbs": verbs})
+
+    def post(self, request):
+        jd = json.loads(request.body)
+        VerbsModel.objects.create(
+            owner_id=jd["owner"],
+            infinitive=jd["infinitive"],
+            past=jd["past"],
+            participle=jd["participle"],
+            spanish=jd["spanish"],
+        )
+        return HttpResponse("oki", status=200)
+
+    def delete(self, request):
+        jd = json.loads(request.body)
+        print(jd)
+        VerbsModel.objects.filter(id__in=jd).delete()
+        return HttpResponse("oki", status=200)
 
 
 class IncreaseScore(View):
