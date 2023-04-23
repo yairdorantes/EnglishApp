@@ -138,7 +138,7 @@ class VerbsModel(models.Model):
 #     audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
 
 
-#     return audio_base64
+# return audio_base64
 import base64
 
 
