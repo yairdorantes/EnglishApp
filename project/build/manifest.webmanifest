@@ -1,0 +1,1 @@
+{"name":"English APP","short_name":"English APP","start_url":".","display":"standalone","background_color":"#2FDBC6","lang":"en","scope":"/","icons":[{"src":"check.png","sizes":"64x64 32x32 24x24 16x16","type":"image/x-icon"},{"src":"check.png","type":"image/png","sizes":"192x192"},{"src":"check.png","type":"image/png","sizes":"512x512"}],"theme_color":"#2FDBC6"}
