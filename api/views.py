@@ -208,80 +208,81 @@ class cardView(View):
 
     def post(self, request):
         jd = json.loads(request.body)
-        try:
-            base64Image = jd["file"]
-            format, imgstr = base64Image.split(";base64,")
-            ext = format.split("/")[-1]
-            dataFile = ContentFile(base64.b64decode(imgstr), name="temp." + ext)
+        exists = Cards.objects.filter(cardTitle=jd["cardTitle"]).first()
+        if not exists:
+            try:
+                base64Image = jd["cardImage"]
+                format, imgstr = base64Image.split(";base64,")
+                ext = format.split("/")[-1]
+                dataFile = ContentFile(base64.b64decode(imgstr), name="temp." + ext)
 
-            text = jd["title"]
-            # Create an instance of gTTS
-            tts = gTTS(text=text, lang="en")
-            # Create a memory buffer to store the binary data
-            buffer = BytesIO()
-            # Write the audio data to the memory buffer
-            tts.write_to_fp(buffer)
-            # Rewind the buffer to the beginning
-            buffer.seek(0)
-            # Encode the binary data into a base64 string
-            audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
-            # print(audio_base64)
+                text = jd["title"]
+                # Create an instance of gTTS
+                tts = gTTS(text=text, lang="en")
+                # Create a memory buffer to store the binary data
+                buffer = BytesIO()
+                # Write the audio data to the memory buffer
+                tts.write_to_fp(buffer)
+                # Rewind the buffer to the beginning
+                buffer.seek(0)
+                # Encode the binary data into a base64 string
+                audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
+                # print(audio_base64)
 
-            card = Cards.objects.create(
-                owner_id=jd["user"],
-                cardTitle=jd["title"],
-                cardMeaning=jd["meaning"],
-                cardImage=dataFile,
-                cardSound=audio_base64,
-            )
-            card.save()
-            data = {"message": "success"}
-        except:
-            text = jd["title"]
-            # Create an instance of gTTS
-            tts = gTTS(text=text, lang="en")
-            # Create a memory buffer to store the binary data
-            buffer = BytesIO()
-            # Write the audio data to the memory buffer
-            tts.write_to_fp(buffer)
-            # Rewind the buffer to the beginning
-            buffer.seek(0)
-            # Encode the binary data into a base64 string
-            audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
-            # print("paso aqui")
-            card = Cards.objects.create(
-                owner_id=jd["user"],
-                cardTitle=jd["title"],
-                cardMeaning=jd["meaning"],
-                cardImage="",
-                imageURL=jd["img_url"],
-                cardSound=audio_base64,
-            )
-            card.save()
-            data = {"message": "success"}
-        return JsonResponse(data)
+                card = Cards.objects.create(
+                    owner_id=jd["owner_id"],
+                    cardTitle=jd["cardTitle"],
+                    cardMeaning=jd["cardMeaning"],
+                    cardImage=dataFile,
+                    cardSound=audio_base64,
+                )
+                card.save()
+                data = {"message": "success"}
+            except:
+                text = jd["cardTitle"]
+                # Create an instance of gTTS
+                tts = gTTS(text=text, lang="en")
+                # Create a memory buffer to store the binary data
+                buffer = BytesIO()
+                # Write the audio data to the memory buffer
+                tts.write_to_fp(buffer)
+                # Rewind the buffer to the beginning
+                buffer.seek(0)
+                # Encode the binary data into a base64 string
+                audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
+                # print("paso aqui")
+                card = Cards.objects.create(
+                    owner_id=jd["owner_id"],
+                    cardTitle=jd["cardTitle"],
+                    cardMeaning=jd["cardMeaning"],
+                    cardImage="",
+                    imageURL=jd["imageURL"],
+                    cardSound=audio_base64,
+                )
+                card.save()
+                data = {"message": "success"}
+            return JsonResponse(data)
+        return HttpResponse("bad", 505)
 
     def put(self, request, id):
         jd = json.loads(request.body)
         card_to_edit = Cards.objects.get(id=id)
-        # print(card_to_edit.cardImage)
-        # print(len(jd["file"]))
         if (
-            card_to_edit.cardImage != jd["file"]
-            or card_to_edit.imageURL != jd["img_url"]
+            card_to_edit.cardImage != jd["cardImage"]
+            or card_to_edit.imageURL != jd["imageURL"]
         ):
-            if len(jd["file"]) > 0:
+            if len(jd["cardImage"]) > 0:
                 base64Image = jd["file"]
                 format, imgstr = base64Image.split(";base64,")
                 ext = format.split("/")[-1]
                 dataFile = ContentFile(base64.b64decode(imgstr), name="temp." + ext)
                 card_to_edit.cardImage = dataFile
                 card_to_edit.imageURL = ""
-            if len(jd["img_url"]) > 0:
-                card_to_edit.imageURL = jd["img_url"]
+            if len(jd["imageURL"]) > 0:
+                card_to_edit.imageURL = jd["imageURL"]
                 card_to_edit.cardImage = ""
-        card_to_edit.cardTitle = jd["title"]
-        card_to_edit.cardMeaning = jd["meaning"]
+        card_to_edit.cardTitle = jd["cardTitle"]
+        card_to_edit.cardMeaning = jd["cardMeaning"]
         card_to_edit.save()
         data = {"message": "success"}
 
@@ -332,38 +333,6 @@ class PostView(View):
             post.likes_count -= 1
             post.save()
             data = {"message": "no like"}
-        return JsonResponse(data)
-
-
-class CommentView(View):
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
-    def get(self, request, id=0):
-        if id > 0:
-            comments = list(Comment.objects.filter(post_id=id).values())
-
-            if len(comments) > 0:
-                data = {"comments": comments}
-            else:
-                data = {"comments": []}
-        else:
-            data = {"message": "MAS POST"}
-        #  sleep(1.3)
-        return JsonResponse(data)
-
-    # @method_decorator(csrf_exempt)
-    def post(self, request):
-        jd = json.loads(request.body)
-        comment = Comment.objects.create(
-            post_id=jd["post_id"],
-            author=jd["user_name"],
-            text=jd["comentario"],
-            created_date=jd["date"],
-        )
-        comment.save()
-        data = {"message": "success"}
         return JsonResponse(data)
 
 
