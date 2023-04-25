@@ -155,7 +155,7 @@ const DeleteCards = () => {
                     <div className="">({card.cardMeaning})</div>
                   </h3>
                   <img
-                    className="delete-img-card"
+                    className="w-32 h-32 max-w-36 mask mask-squircle"
                     src={
                       card.cardImage === ""
                         ? card.imageURL

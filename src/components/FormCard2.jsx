@@ -20,17 +20,18 @@ const customStyles = {
 const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-
   const [fileName, setFileName] = useState("");
-  const [cardData, setCardData] = useState(
-    initialData || {
-      user: user.user_id,
-      title: "",
-      meaning: "",
-      file: "",
-      img_url: "",
-      idCard: 0,
-    }
+  const [cardData, setCardData] = useState(() =>
+    initialData
+      ? initialData
+      : {
+          user: user.user_id,
+          title: "",
+          meaning: "",
+          file: "",
+          img_url: "",
+          idCard: 0,
+        }
   );
   const [imageType, setImageType] = useState("file");
 
@@ -38,7 +39,6 @@ const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
     setFileName(file.fileList[0].name);
     setCardData({ ...cardData, file: file.base64 });
   };
-
   const sendData = (e) => {
     e.preventDefault();
     if (cardData.title.length < 23 && cardData.meaning.length < 23) {
@@ -84,6 +84,7 @@ const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
           handleOpen(!isOpen);
         }}
       >
+        <div>{cardData.title}lj</div>
         <form
           className="bg-slate-800 p-5 w-[90%] md:w-96 rounded-lg mx-auto "
           onSubmit={sendData}
