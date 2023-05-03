@@ -166,6 +166,18 @@ class userView(View):
         return JsonResponse(data)
 
 
+class DeleteCard(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request):
+        jd = json.loads(request.body)
+        lista = jd["del_these"]
+        Cards.objects.filter(id__in=lista).delete()
+        return HttpResponse("ok", status=200)
+
+
 class cardView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -286,15 +298,6 @@ class cardView(View):
         card_to_edit.save()
         data = {"message": "success"}
 
-        return JsonResponse(data)
-
-    def delete(self, request, card):
-        Cards.objects.get(id=card).delete()
-        data = {"message": "success"}
-        # card = list(Cards.objects.filter(id=id).values())
-        # if len(card) > 0:
-        # else:
-        #     data = {'message': 'user not found'}
         return JsonResponse(data)
 
 

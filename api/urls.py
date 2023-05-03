@@ -1,3 +1,4 @@
+from crypt import methods
 from posixpath import basename
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
@@ -20,6 +21,7 @@ from .views import (
     IncreaseScore,
     CategoryView,
     VerbsView,
+    DeleteCard,
 )
 
 from rest_framework.routers import DefaultRouter
@@ -34,6 +36,7 @@ urlpatterns = [
     path("users/<int:id>", userView.as_view(), name="users_process"),
     path("cards/", cardView.as_view(), name="cards_list"),
     path("cards/<str:section>", cardView.as_view(), name="cards_list3"),
+    path("cards/delete/", DeleteCard.as_view(), name="cards_delete"),
     path("usercards/<int:id>", cardView.as_view(), name="cards_list2"),
     path("delcard/<int:card>", cardView.as_view(), name="cards_list1"),
     # path('shorts/', shortView.as_view(), name='shorts_list'),
