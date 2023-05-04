@@ -51,6 +51,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://eloquent-torte-3124af.netlify.app",
 ]
 
+# k
 # Application definition
 
 INSTALLED_APPS = [
