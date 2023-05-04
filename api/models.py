@@ -82,6 +82,7 @@ def change_sound(sender, instance, **kwargs):
 
 post_save.connect(change_sound, sender=Cards)
 # TODO activate/uncomment in production this shit oh yeah
+# klj
 
 
 class CategoriaPost(models.Model):
