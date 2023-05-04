@@ -63,6 +63,7 @@ class Cards(models.Model):
         return self.cardTitle
 
 
+# ak
 def change_sound(sender, instance, **kwargs):
     text = instance.cardTitle
     # Create an instance of gTTS
