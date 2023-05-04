@@ -60,6 +60,7 @@ class Cards(models.Model):
         blank=True,
     )
     imageURL = models.URLField(blank=True, verbose_name="Image source")
+    image = models.TextField(verbose_name="Image", blank=True, null=True)
 
     class Meta:
         ordering = ["-id"]
