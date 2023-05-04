@@ -8,7 +8,6 @@ import pencil from "../media/lapiz.png";
 import delIcon from "../media/delete.png";
 import Modal from "react-modal";
 import "./styles/modifyCards.css";
-import FormCard from "./FormCard";
 import mySite from "./Domain";
 import NewMenu from "./NewMenu";
 import FormCard2 from "./FormCard2";

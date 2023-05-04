@@ -4,13 +4,20 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import "./styles/stylesCards.css";
-import { Pagination, EffectCards, Mousewheel, Keyboard } from "swiper";
+import {
+  Pagination,
+  EffectCards,
+  Mousewheel,
+  Keyboard,
+  Autoplay,
+  EffectFlip,
+  EffectCube,
+} from "swiper";
 import wordSound from "../media/cards/audio.png";
 import iconAdd from "../media/add.png";
 import Loader from "./Loader";
-import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
+import { Link, NavLink, json, useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import FormCard from "./FormCard";
 import { helpHttp } from "../helpers/helpHttp";
 import mySite from "./Domain";
 import axios from "axios";
@@ -26,6 +33,11 @@ const urlImageCard = "https://res.cloudinary.com/tolumaster/image/upload/v1/";
 
 const Cards = () => {
   let { user } = useContext(AuthContext);
+  const [cardData, setCardData] = useState({
+    cardTitle: "",
+    cardMeaning: "",
+    image: "",
+  });
   const navigate = useNavigate();
   const audioRef = useRef();
   const paramsUrl = useParams();
@@ -35,6 +47,13 @@ const Cards = () => {
   const [isPremium, setIsPremium] = useState(false);
   const [cards, setCards] = useState([]);
   const [loader, setLoader] = useState(false);
+  // const [IsAutoSlide, setIsAutoSlide] = useState(true);
+  const [swiperState, setSwiperState] = useState(() =>
+    localStorage.getItem("swiper-state")
+      ? JSON.parse(localStorage.getItem("swiper-state"))
+      : { effect: "cards" }
+  );
+
   const fetchAPi = async () => {
     setLoader(true);
     paramsUrl.section === "mis-cartas"
@@ -54,14 +73,6 @@ const Cards = () => {
     });
   };
 
-  const getUserData = () => {
-    helpHttp()
-      .get(`${mySite}users/${user.user_id}`)
-      .then((res) => {
-        // console.log(res.user.premium);
-        setIsPremium(res.user.premium);
-      });
-  };
   const getCards = (key) => {
     if (localStorage.getItem(key)) {
       const beforeCards = JSON.parse(localStorage.getItem(key));
@@ -81,7 +92,6 @@ const Cards = () => {
     } else {
       getCards(`${paramsUrl.section}_cards`);
     }
-    getUserData();
   }, []);
 
   const handleDisplay = () => setIsActive(!isActive);
@@ -92,27 +102,96 @@ const Cards = () => {
     audioRef.current.play();
   };
 
+  const changeSwiper = () => {
+    console.log(swiperState);
+    if (swiperState.effect === "cards") {
+      localStorage.setItem(
+        "swiper-state",
+        JSON.stringify({ effect: "navigation" })
+      );
+    } else {
+      localStorage.setItem("swiper-state", JSON.stringify({ effect: "cards" }));
+    }
+    location.reload();
+  };
+
   return (
     <>
       <NewMenu />
+
       {/* <AboutUser wasUp={result}></AboutUser> */}
       <div className="all-cards">
-        {paramsUrl.section === "mis-cartas" && (
-          <div className="del-cards">
-            <NavLink to="/cards/delete">
-              <button className="btn btn-warning btn-sm m-1 float-right">
-                <strong>Eliminar o Editar</strong>
-              </button>
-            </NavLink>
-          </div>
-        )}
+        <div className="flex gap-3 justify-center ">
+          <button className="btn" onClick={changeSwiper}>
+            <svg
+              className="w-8 h-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              height="1em"
+              width="1em"
+            >
+              <path
+                fill="currentColor"
+                d="M4.993 11.016a1 1 0 01-.531-1.848L7.15 6.48a1 1 0 011.414 1.415l-1.121 1.12h7.55a1 1 0 010 2h-10zM19.007 12.984a1 1 0 01.531 1.848L16.85 17.52a1 1 0 11-1.414-1.415l1.121-1.12h-7.55a1 1 0 110-2h10z"
+              />
+            </svg>
+          </button>
 
+          <button className="btn  btn-success btn-" onClick={fetchAPi}>
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              height="1em"
+              width="1em"
+              className="w-8 h-8"
+            >
+              <path d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1a6.887 6.887 0 000 9.8c2.73 2.7 7.15 2.7 9.88 0 1.36-1.35 2.04-2.92 2.04-4.9h2c0 1.98-.88 4.55-2.64 6.29-3.51 3.48-9.21 3.48-12.72 0-3.5-3.47-3.53-9.11-.02-12.58a8.987 8.987 0 0112.65 0L21 3v7.12M12.5 8v4.25l3.5 2.08-.72 1.21L11 13V8h1.5z" />
+            </svg>
+          </button>
+          {paramsUrl.section === "mis-cartas" && (
+            <div className="del-cards">
+              <NavLink to="/cards/modify">
+                <button className="btn btn-warning ">
+                  <svg
+                    viewBox="0 0 1024 1024"
+                    fill="currentColor"
+                    height="1em"
+                    className="w-8 h-8"
+                    width="1em"
+                  >
+                    <path d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z" />
+                  </svg>
+                </button>
+              </NavLink>
+            </div>
+          )}
+        </div>
         <Swiper
           keyboard={true}
           mousewheel={true}
-          className="mySwiper"
-          effect={"cards"}
-          modules={[EffectCards, Mousewheel, Pagination, Keyboard]}
+          className={`relative ${
+            swiperState.effect === "cards"
+              ? "w-[270px] h-[400px] mt-24"
+              : "p-10 h-[400px] w-[400px]"
+          }  `}
+          loop
+          effect={swiperState.effect}
+          spaceBetween={50}
+          // autoplay={
+          //   IsAutoSlide && {
+          //     delay: 500,
+          //     disableOnInteraction: false,
+          //   }
+          // }
+          modules={[
+            EffectCards,
+            EffectFlip,
+            Mousewheel,
+            Pagination,
+            Keyboard,
+            Autoplay,
+            EffectCube,
+          ]}
         >
           {/* <CardTuto></CardTuto> */}
           {!cards ? (
@@ -129,12 +208,7 @@ const Cards = () => {
                 <SwiperSlide
                   style={{
                     borderColor: "white",
-                    backgroundImage:
-                      "url(" +
-                      (card.imageURL === ""
-                        ? urlImageCard + card.cardImage
-                        : card.imageURL) +
-                      ")",
+                    backgroundImage: "url(" + card.image + ")",
                   }}
                   className="swiper-slide-card"
                   key={card.id}
@@ -153,7 +227,15 @@ const Cards = () => {
                         handleAudio(card.cardSound);
                       }}
                     >
-                      <img className="word-sound" src={wordSound} alt="" />
+                      <svg
+                        viewBox="0 0 500 1000"
+                        fill="currentColor"
+                        height="1em"
+                        width="1em"
+                      >
+                        <path d="M486 474c9.333 6.667 14 15.333 14 26 0 9.333-4.667 17.333-14 24L58 790c-16 10.667-29.667 12.667-41 6-11.333-6.667-17-20-17-40V242c0-20 5.667-33.333 17-40 11.333-6.667 25-4.667 41 6l428 266" />
+                      </svg>
+                      {/* <img className="word-sound" src={wordSound} alt="" /> */}
                     </button>
                   </div>
                 </SwiperSlide>
@@ -184,28 +266,30 @@ const Cards = () => {
             )}
           </div>
         )}
-
-        {isPremium && cards.cards && cards.cards.length > 0 && (
-          <div className="cont-btn-review flex justify-center flex-col gap-5 items-center">
-            <button
-              onClick={() =>
-                navigate("/test", {
-                  state: {
-                    cards: cards.cards,
-                    section:
-                      paramsUrl.section === "mis-cartas"
-                        ? "Mis cartas"
-                        : paramsUrl.section,
-                  },
-                })
-              }
-              className="btn bg-blue-700 w-36"
-            >
-              Quiz
-            </button>
-          </div>
-        )}
-        <FormCard2 isOpen={modalIsOpen} handleOpen={setModalIsOpen} />
+        <div className="cont-btn-review flex justify-center flex-col gap-5 items-center">
+          <button
+            onClick={() =>
+              navigate("/test", {
+                state: {
+                  cards: cards.cards,
+                  section:
+                    paramsUrl.section === "mis-cartas"
+                      ? "Mis cartas"
+                      : paramsUrl.section,
+                },
+              })
+            }
+            className="btn bg-blue-700 w-36"
+          >
+            Quiz
+          </button>
+        </div>
+        <FormCard2
+          isOpen={modalIsOpen}
+          setCardData={setCardData}
+          cardData={cardData}
+          handleOpen={setModalIsOpen}
+        />
         {/* {cards.cards && !cards.cards.length > 0 && (
           <div>Para generar un quiz agrega tus cartas </div>
         )} */}

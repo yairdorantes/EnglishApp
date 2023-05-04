@@ -1,9 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import ReactFileReader from "react-file-reader";
 import axios from "axios";
 import mySite from "./Domain";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import OutsideClickHandler from "react-outside-click-handler";
@@ -17,39 +17,30 @@ const customStyles = {
   },
   overlay: { zIndex: 999, backgroundColor: "#18191ab1" },
 };
-const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
-  const { user } = useContext(AuthContext);
+const FormCard2 = ({ cardData, setCardData, isOpen, handleOpen }) => {
   const navigate = useNavigate();
   const [fileName, setFileName] = useState("");
-  const [cardData, setCardData] = useState(() =>
-    initialData
-      ? initialData
-      : {
-          user: user.user_id,
-          title: "",
-          meaning: "",
-          file: "",
-          img_url: "",
-          idCard: 0,
-        }
-  );
   const [imageType, setImageType] = useState("file");
+  const { user } = useContext(AuthContext);
 
   const handleFiles = (file) => {
     setFileName(file.fileList[0].name);
-    setCardData({ ...cardData, file: file.base64 });
+    setCardData({ ...cardData, image: file.base64 });
   };
+
   const sendData = (e) => {
+    console.log(cardData);
     e.preventDefault();
-    if (cardData.title.length < 23 && cardData.meaning.length < 23) {
-      if (!initialData) {
+    if (cardData.cardTitle.length < 23 && cardData.cardMeaning.length < 23) {
+      if (!cardData.owner_id) {
+        // console.log(cardData);
         axios
-          .post(`${mySite}cards/`, cardData)
+          .post(`${mySite}cards/`, { ...cardData, owner_id: user.user_id })
           .then((res) => {
             if (res.status === 200) {
               toast.success("Enviado con éxito!");
               setTimeout(() => {
-                navigate("/cards/mis-cartas");
+                handleOpen(false);
               }, 1000);
             }
           })
@@ -59,7 +50,7 @@ const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
           });
       } else {
         axios
-          .put(`${mySite}card-edit/${cardData.idCard}`)
+          .put(`${mySite}card-edit/${cardData.id}`, cardData)
           .then((res) => {
             if (res.status === 200) toast.success("Datos actualizados!");
           })
@@ -72,9 +63,10 @@ const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
       toast.error("Demasiado texto");
     }
   };
+
   return (
     <Modal
-      className="modal-form-card w-[90%] md:w-96"
+      className="modal-form-card w-[90%] md:w-96 mx-auto mt-44"
       ariaHideApp={false}
       style={customStyles}
       isOpen={isOpen}
@@ -84,12 +76,11 @@ const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
           handleOpen(!isOpen);
         }}
       >
-        <div>{cardData.title}lj</div>
         <form
           className="bg-slate-800 p-5 w-[90%] md:w-96 rounded-lg mx-auto "
           onSubmit={sendData}
         >
-          <Toaster />
+          {/* <Toaster /> */}
           <div className="form-control w-full mx-auto  max-w-xs">
             <label className="label">
               <span className="label-text ">Palabra en ingles</span>
@@ -97,10 +88,10 @@ const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
             <input
               type="text"
               onChange={(e) =>
-                setCardData({ ...cardData, title: e.target.value })
+                setCardData({ ...cardData, cardTitle: e.target.value })
               }
               placeholder="Word"
-              value={cardData.title}
+              value={cardData.cardTitle}
               className="input input-bordered w-full max-w-xs"
             />
             <label className="label">
@@ -111,15 +102,15 @@ const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
               placeholder="Palabra"
               className="input input-bordered w-full max-w-xs"
               onChange={(e) =>
-                setCardData({ ...cardData, meaning: e.target.value })
+                setCardData({ ...cardData, cardMeaning: e.target.value })
               }
-              value={cardData.meaning}
+              value={cardData.cardMeaning}
             />
             <div className="mt-5">
               <label
                 onClick={() => {
                   setFileName("");
-                  setCardData({ ...cardData, file: "" });
+                  setCardData({ ...cardData, image: "" });
                 }}
                 className="label cursor-pointer bg-gray-800  p-3 mb-3"
               >
@@ -130,12 +121,13 @@ const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
                   type="radio"
                   name="radio-10"
                   className="radio checked:bg-red-500"
+                  readOnly
                   onClick={() => setImageType("url")}
                   checked={imageType === "url"}
                 />
               </label>
               <label
-                onClick={() => setCardData({ ...cardData, img_url: "" })}
+                onClick={() => setCardData({ ...cardData, image: "" })}
                 className="label cursor-pointer bg-gray-800  p-3 rounded-lg"
               >
                 <span className="label-text text-lg">
@@ -148,6 +140,7 @@ const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
                     setImageType("file");
                   }}
                   checked={imageType === "file"}
+                  readOnly
                   className="radio checked:bg-blue-500"
                 />
               </label>
@@ -161,9 +154,9 @@ const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
                   type="text"
                   placeholder="Direccion de la imagen"
                   onChange={(e) =>
-                    setCardData({ ...cardData, img_url: e.target.value })
+                    setCardData({ ...cardData, image: e.target.value })
                   }
-                  value={cardData.img_url}
+                  value={cardData.image}
                   className="input input-bordered w-full max-w-xs"
                 />
               </>
@@ -194,7 +187,7 @@ const FormCard2 = ({ initialData = null, isOpen, handleOpen }) => {
               className={`btn ${
                 cardData.title !== "" &&
                 cardData.meaning !== "" &&
-                (cardData.img_url !== "" || cardData.file !== "")
+                cardData.image !== ""
                   ? "btn-success"
                   : "btn-disabled"
               } mt-4`}

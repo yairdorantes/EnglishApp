@@ -11,6 +11,13 @@ export default defineConfig({
       //   enabled: true,
       //   // type: "module",
       // },
+      // add this to cache all the imports
+      workbox: {
+        globPatterns: ["**/*"],
+      },
+      // add this to cache all the
+      // static assets in the public folder
+      includeAssets: ["**/*"],
       registerType: "autoUpdate",
       manifest: {
         short_name: "English APP",

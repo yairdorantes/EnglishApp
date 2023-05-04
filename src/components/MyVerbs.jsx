@@ -5,10 +5,14 @@ import mySite from "./Domain";
 import AuthContext from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
+import Loader from "./Loader";
+import { useToggleValue } from "../myHooks/toggleValue";
 const MyVerbs = () => {
   const { user } = useContext(AuthContext);
+  const { active, setTrue, setFalse } = useToggleValue(false);
   const [toDelete, setToDelete] = useState(false);
   const [delItems, setDelItems] = useState([]);
+
   const audioRef = useRef();
   const [audio, setAudio] = useState();
   const [verbs, setVerbs] = useState([]);
@@ -41,24 +45,28 @@ const MyVerbs = () => {
 
   useEffect(() => {
     console.log(user.user_id);
+    setTrue();
     axios
       .get(`${mySite}verbs/${user.user_id}`)
       .then((res) => {
         setVerbs(res.data.verbs);
         console.log(res.data.verbs);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => setFalse());
   }, []);
 
   return (
     <div className="p-2">
-      <Toaster />
+      {active && <Loader />}
 
       <div className="flex w-full  mx-auto text-center">
-        <div className="w-1/4">Infinitivo</div>
-        <div className="w-1/4">Pasado</div>
-        <div className="w-1/4">Participio</div>
-        <div className="w-1/4">español</div>
+        <div className="w-1/4 font-bold text-success ">Infinitivo</div>
+        <div className="w-1/4 font-bold text-success ">Pasado</div>
+        <div className="w-1/4 font-bold text-success ">Participio</div>
+        <div className="w-1/4 font-bold text-success ">español</div>
       </div>
 
       {verbs &&

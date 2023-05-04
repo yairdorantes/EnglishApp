@@ -25,7 +25,7 @@ const Routers = () => {
           <Route path="/cards/:section" element={<Cards />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/postpage/:id" element={<PostPage />} />
-          <Route path="/cards/delete" element={<DeleteCards />} />
+          <Route path="/cards/modify" element={<ModifyCards />} />
           <Route path="/testing" element={<ModifyCards />} />
           <Route path="/phrases" element={<Phrases section="animales" />} />
           <Route path="/" element={<SubMenuCard />} />
