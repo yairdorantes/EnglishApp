@@ -53,21 +53,11 @@ class Cards(models.Model):
     cardTitle = models.CharField(max_length=50, verbose_name="Card title")
     cardMeaning = models.CharField(max_length=50, verbose_name="Card meaning")
     cardSound = models.TextField(verbose_name="Sound Src", blank=True, null=True)
-    cardImage = models.ImageField(
-        verbose_name="Card image",
-        upload_to="cards",
-        null=True,
-        blank=True,
-    )
-    imageURL = models.URLField(blank=True, verbose_name="Image source")
+
     image = models.TextField(verbose_name="Image", blank=True, null=True)
 
     class Meta:
         ordering = ["-id"]
-
-    def delete(self, *args, **kwargs):
-        self.cardImage.delete()
-        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.cardTitle
@@ -91,6 +81,7 @@ def change_sound(sender, instance, **kwargs):
 
 
 post_save.connect(change_sound, sender=Cards)
+# TODO activate/uncomment in production this shit oh yeah
 
 
 class CategoriaPost(models.Model):

@@ -223,24 +223,24 @@ class cardView(View):
         jd = json.loads(request.body)
         exists = Cards.objects.filter(cardTitle=jd["cardTitle"]).first()
         if not exists:
-            # text = jd["title"]
-            # # Create an instance of gTTS
-            # tts = gTTS(text=text, lang="en")
-            # # Create a memory buffer to store the binary data
-            # buffer = BytesIO()
-            # # Write the audio data to the memory buffer
-            # tts.write_to_fp(buffer)
-            # # Rewind the buffer to the beginning
-            # buffer.seek(0)
-            # # Encode the binary data into a base64 string
-            # audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
-            # # print(audio_base64)
+            text = jd["title"]
+            # Create an instance of gTTS
+            tts = gTTS(text=text, lang="en")
+            # Create a memory buffer to store the binary data
+            buffer = BytesIO()
+            # Write the audio data to the memory buffer
+            tts.write_to_fp(buffer)
+            # Rewind the buffer to the beginning
+            buffer.seek(0)
+            # Encode the binary data into a base64 string
+            audio_base64 = base64.b64encode(buffer.read()).decode("utf-8")
+            # print(audio_base64)
             Cards.objects.create(
                 owner_id=jd["owner_id"],
                 cardTitle=jd["cardTitle"],
                 cardMeaning=jd["cardMeaning"],
                 image=jd["image"],
-                # cardSound=audio_base64,
+                cardSound=audio_base64,
             )
             print("hereee")
             return HttpResponse("success", status=200)
