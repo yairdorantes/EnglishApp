@@ -223,7 +223,7 @@ class cardView(View):
         jd = json.loads(request.body)
         exists = Cards.objects.filter(cardTitle=jd["cardTitle"]).first()
         if not exists:
-            text = jd["title"]
+            text = jd["cardTitle"]
             # Create an instance of gTTS
             tts = gTTS(text=text, lang="en")
             # Create a memory buffer to store the binary data
