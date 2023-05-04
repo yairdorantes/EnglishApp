@@ -184,6 +184,7 @@ class cardView(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    # k
     def get(self, request, section="", id=0):
         if section != "":
             cards = list(
