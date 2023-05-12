@@ -67,13 +67,17 @@ const Quiz = () => {
   // };
 
   const getNextQuestion = () => {
+    console.log("************", cardsShuffled, "**********");
     toast.dismiss();
-
-    console.log(cardsShuffled);
     if (cont < cards.length) {
       const cardSelected = cardsShuffled[0];
       setCardPicked(cardSelected);
-      console.log(cardSelected.cardTitle);
+      console.log(cardSelected);
+
+      // const audio = `data:audio/mpeg;base64,${cardSelected.cardSound}`;
+      // setAudio(audio);
+      // audioRef.current.play();
+
       isSent && setCont(cont + 1);
       setIsSent(false);
       setRadioActive(-1);
