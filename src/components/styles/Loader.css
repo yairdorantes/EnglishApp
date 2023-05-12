@@ -1,6 +1,7 @@
 .loader-wrapper-1 {
   width: 60px;
   height: 60px;
+  /* margin-top: -100px; */
 }
 .loader-yair {
   z-index: 10;

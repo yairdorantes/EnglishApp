@@ -27,21 +27,21 @@ const FormCard2 = ({ cardData, setCardData, isOpen, handleOpen }) => {
     setFileName(file.fileList[0].name);
     setCardData({ ...cardData, image: file.base64 });
   };
-
   const sendData = (e) => {
     console.log(cardData);
     e.preventDefault();
     if (cardData.cardTitle.length < 23 && cardData.cardMeaning.length < 23) {
       if (!cardData.owner_id) {
-        // console.log(cardData);
         axios
           .post(`${mySite}cards/`, { ...cardData, owner_id: user.user_id })
           .then((res) => {
             if (res.status === 200) {
               toast.success("Enviado con éxito!");
+              console.log(cardData);
+              // setCards([...cards, cardData]);
               setTimeout(() => {
                 handleOpen(false);
-              }, 1000);
+              }, 500);
             }
           })
           .catch((err) => {

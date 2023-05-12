@@ -8,27 +8,26 @@ import NewMenu from "./NewMenu";
 import { toast } from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import OutsideClickHandler from "react-outside-click-handler";
+import arrayShuffle from "array-shuffle";
+import correctSound from "../media/correct.mp3";
 
 const Quiz = () => {
   const location = useLocation();
   const { cards, section } = location.state;
-  // console.log(cards);
   let { user } = useContext(AuthContext);
-
   const audioRef = useRef();
 
   let urlIncreaseScore = `${mySite}increase/${user.user_id}`;
   const [radioActive, setRadioActive] = useState();
   const [cardPicked, setCardPicked] = useState();
+  const [Cards, setCards] = useState(arrayShuffle(cards));
   const [answers, setAnswers] = useState();
   const [correct, setCorrect] = useState(false);
   const [isSent, setIsSent] = useState(false);
-  const [cont, setCont] = useState(1);
+  const [cont, setCont] = useState(0);
   const [audio, setAudio] = useState();
-  const [cardsShuffled, setCardsShuffled] = useState(cards);
   const [contCorrects, setContCorrects] = useState(0);
-  // const [myToast, setMyToast] = useState()
-  // const cardsShuffled = ;
+
   const handleRadio = (number) => {
     if (!isSent) {
       setRadioActive(number);
@@ -40,7 +39,6 @@ const Quiz = () => {
         axios.post(urlIncreaseScore);
       } else {
         showResultToast(false);
-
         setCorrect(false);
         setIsSent(true);
       }
@@ -48,59 +46,33 @@ const Quiz = () => {
   };
 
   const showResultToast = (isCorrect) => {
-    console.log(isCorrect);
     isCorrect
       ? toast.success("Correcto! 😃", { duration: Infinity })
       : toast.error("Incorrecto! 😓", { duration: Infinity });
   };
-  // const generateQuestion = () => {
-  //   isSent && setCont(cont + 1);
-  //   setIsSent(false);
-  //   setRadioActive(-1);
-  //   const arr = cards,
-  //     shuffled = arr.sort(() => 0.5 - Math.random()),
-  //     randomValues = shuffled.slice(0, 3);
-  //   setAnswers(randomValues);
-  //   // console.log(randomValues);
-  //   const randomIndex = Math.floor(Math.random() * randomValues.length);
-  //   setCardPicked(randomValues[randomIndex]);
-  // };
 
   const getNextQuestion = () => {
-    console.log("************", cardsShuffled, "**********");
     toast.dismiss();
-    if (cont < cards.length) {
-      const cardSelected = cardsShuffled[0];
-      setCardPicked(cardSelected);
-      console.log(cardSelected);
-
-      // const audio = `data:audio/mpeg;base64,${cardSelected.cardSound}`;
-      // setAudio(audio);
-      // audioRef.current.play();
-
-      isSent && setCont(cont + 1);
-      setIsSent(false);
-      setRadioActive(-1);
-      const delFisrtCard = cardsShuffled.filter(
-        (obj) => obj.id !== cardSelected.id
-      );
-      setCardsShuffled(delFisrtCard);
-      const filteredObjects = cards.filter((obj) => obj.id !== cardSelected.id);
-      const randomAnswers = filteredObjects
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 2);
-      randomAnswers.push(cardSelected);
-      setAnswers(randomAnswers.sort(() => 0.5 - Math.random()));
-    }
+    const cardSelected = Cards[cont];
+    setCardPicked(Cards[cont]);
+    handleAudio(cardSelected.cardSound);
+    setIsSent(false);
+    setRadioActive(-1);
+    //*  Get list without card selected to get 2 random answers after...
+    const filteredObjects = Cards.filter((obj) => obj.id !== cardSelected.id);
+    const randomAnswers = arrayShuffle(filteredObjects).slice(0, 2);
+    //* add all card data to random answers list to get more info abour every answer
+    randomAnswers.push(cardSelected);
+    setAnswers(arrayShuffle(randomAnswers));
+    setCont(cont + 1);
   };
 
   const repeatQuiz = () => {
-    setCardsShuffled(cards.sort(() => 0.5 - Math.random()));
+    setCont(0);
+    setCards(arrayShuffle(Cards));
     setContCorrects(0);
     setIsSent(false);
-    setCont(1);
     setRadioActive(-1);
-    getNextQuestion();
   };
 
   const handleAudio = (sound) => {
@@ -112,10 +84,10 @@ const Quiz = () => {
   useEffect(() => {
     getNextQuestion();
   }, []);
+  useEffect(() => {
+    if (cont === 0) getNextQuestion();
+  }, [cont]);
 
-  // toast.success("je", { duration: Infinity });
-
-  // console.log(cards.sort((a, b) => 0.5 - Math.random()));
   return (
     <>
       <NewMenu />

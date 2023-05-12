@@ -13,24 +13,15 @@ import {
   EffectFlip,
   EffectCube,
 } from "swiper";
-import wordSound from "../media/cards/audio.png";
 import iconAdd from "../media/add.png";
 import Loader from "./Loader";
-import { Link, NavLink, json, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import { helpHttp } from "../helpers/helpHttp";
 import mySite from "./Domain";
 import axios from "axios";
-// import Phrases from "./Phrases";
 import NewMenu from "./NewMenu";
 import FormCard2 from "./FormCard2";
-// import Quiz from "../components/Quiz";
-// import CardTuto from "./CardTuto";
-import OutsideClickHandler from "react-outside-click-handler";
-
 let url = "";
-const urlImageCard = "https://res.cloudinary.com/tolumaster/image/upload/v1/";
-
 const Cards = () => {
   let { user } = useContext(AuthContext);
   const [cardData, setCardData] = useState({
@@ -44,7 +35,6 @@ const Cards = () => {
   const [audio, setAudio] = useState();
   const [isActive, setIsActive] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [isPremium, setIsPremium] = useState(false);
   const [cards, setCards] = useState([]);
   const [loader, setLoader] = useState(false);
   // const [IsAutoSlide, setIsAutoSlide] = useState(true);
@@ -54,44 +44,17 @@ const Cards = () => {
       : { effect: "cards" }
   );
 
-  const fetchAPi = async () => {
+  const fetchAPi = () => {
     setLoader(true);
     paramsUrl.section === "mis-cartas"
       ? (url = `${mySite}usercards/${user.user_id}`)
       : (url = `${mySite}cards/${paramsUrl.section}`);
     axios.get(url).then((res) => {
       setCards(res.data);
-      setLoader(false);
-      if (paramsUrl.section === "mis-cartas") {
-        localStorage.setItem("user_cards", JSON.stringify(res.data));
-      } else {
-        localStorage.setItem(
-          `${paramsUrl.section}_cards`,
-          JSON.stringify(res.data)
-        );
-      }
     });
   };
-
-  const getCards = (key) => {
-    if (localStorage.getItem(key)) {
-      const beforeCards = JSON.parse(localStorage.getItem(key));
-      if (beforeCards.cards) {
-        setCards({
-          cards: beforeCards.cards.sort((a, b) => 0.5 - Math.random()),
-        });
-      }
-    } else {
-      fetchAPi();
-    }
-  };
-
   useEffect(() => {
-    if (paramsUrl.section === "mis-cartas") {
-      getCards("user_cards");
-    } else {
-      getCards(`${paramsUrl.section}_cards`);
-    }
+    fetchAPi();
   }, []);
 
   const handleDisplay = () => setIsActive(!isActive);
@@ -119,7 +82,6 @@ const Cards = () => {
     <>
       <NewMenu />
 
-      {/* <AboutUser wasUp={result}></AboutUser> */}
       <div className="all-cards">
         <div className="flex gap-3 justify-center ">
           <button className="btn" onClick={changeSwiper}>
@@ -137,17 +99,6 @@ const Cards = () => {
             </svg>
           </button>
 
-          <button className="btn  btn-success btn-" onClick={fetchAPi}>
-            <svg
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              height="1em"
-              width="1em"
-              className="w-8 h-8"
-            >
-              <path d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1a6.887 6.887 0 000 9.8c2.73 2.7 7.15 2.7 9.88 0 1.36-1.35 2.04-2.92 2.04-4.9h2c0 1.98-.88 4.55-2.64 6.29-3.51 3.48-9.21 3.48-12.72 0-3.5-3.47-3.53-9.11-.02-12.58a8.987 8.987 0 0112.65 0L21 3v7.12M12.5 8v4.25l3.5 2.08-.72 1.21L11 13V8h1.5z" />
-            </svg>
-          </button>
           {paramsUrl.section === "mis-cartas" && (
             <div className="del-cards">
               <NavLink to="/cards/modify">
@@ -156,7 +107,7 @@ const Cards = () => {
                     viewBox="0 0 1024 1024"
                     fill="currentColor"
                     height="1em"
-                    className="w-8 h-8"
+                    // className="w-8 h-8"
                     width="1em"
                   >
                     <path d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z" />
@@ -194,15 +145,13 @@ const Cards = () => {
           ]}
         >
           {/* <CardTuto></CardTuto> */}
-          {!cards ? (
-            loader && <Loader />
-          ) : !cards.cards ? (
-            <div className="nada-por-aqui">
-              <strong>Nada por aqui... Agrega tus cartas 💾</strong>
-              {loader && <Loader />}
-            </div>
+          {cards && cards.cards && cards.cards.length === 0 && (
+            <div>Nada aqui</div>
+          )}
+          {!cards.cards ? (
+            <Loader pos={"-mt-28"} />
           ) : (
-            cards.cards.map((card, key) => {
+            cards.cards.map((card) => {
               // console.log(cards);
               return (
                 <SwiperSlide
@@ -227,11 +176,16 @@ const Cards = () => {
                         handleAudio(card.cardSound);
                       }}
                     >
+                      {/* // TODO check how works on mobile  */}
                       <svg
+                        onClick={() => {
+                          handleAudio(card.cardSound);
+                        }}
                         viewBox="0 0 500 1000"
                         fill="currentColor"
                         height="1em"
                         width="1em"
+                        className="w-6 h-6"
                       >
                         <path d="M486 474c9.333 6.667 14 15.333 14 26 0 9.333-4.667 17.333-14 24L58 790c-16 10.667-29.667 12.667-41 6-11.333-6.667-17-20-17-40V242c0-20 5.667-33.333 17-40 11.333-6.667 25-4.667 41 6l428 266" />
                       </svg>
@@ -246,24 +200,12 @@ const Cards = () => {
         </Swiper>
         {paramsUrl.section === "mis-cartas" && (
           <div className="container-icon-add">
-            {cards.cards && cards.cards.length >= 10 && !isPremium ? (
-              <>
-                <div className="container-updatein-card">
-                  <div className="alert-no-more-cards">
-                    <strong>
-                      Para seguir agregando cartas, actualízate a premium
-                    </strong>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <img
-                onClick={() => setModalIsOpen(!modalIsOpen)}
-                className="icon-add mx-auto"
-                src={iconAdd}
-                alt=""
-              />
-            )}
+            <img
+              onClick={() => setModalIsOpen(!modalIsOpen)}
+              className="icon-add mx-auto"
+              src={iconAdd}
+              alt=""
+            />
           </div>
         )}
         <div className="cont-btn-review flex justify-center flex-col gap-5 items-center">
@@ -289,6 +231,8 @@ const Cards = () => {
           setCardData={setCardData}
           cardData={cardData}
           handleOpen={setModalIsOpen}
+          setCards={setCards}
+          cards={cards.cards}
         />
         {/* {cards.cards && !cards.cards.length > 0 && (
           <div>Para generar un quiz agrega tus cartas </div>

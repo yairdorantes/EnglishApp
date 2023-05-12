@@ -60,8 +60,8 @@ const SubMenuCard = () => {
     <div>
       <NewMenu />
 
-      <div className="w-screen h-screen bg-base-200">
-        <div className=" flex flex-wrap  items-center justify-center">
+      <div className="w-screen h-screen bg-base-200 ">
+        <div className=" flex flex-wrap justify-center sm:pt-28 pt-0">
           <motion.div
             variants={variants}
             initial="hidden"
@@ -69,7 +69,7 @@ const SubMenuCard = () => {
             custom={0}
           >
             <div
-              className={`flex-shrink-0 m-6 relative overflow-hidden bg-rose-800 rounded-lg max-w-xs shadow-lg`}
+              className={`flex-shrink-0 m-2 relative overflow-hidden bg-rose-800 rounded-lg max-w-xs   shadow-lg`}
             >
               {/* <Link style={{ textDecoration: "none" }} to="/cards/mis-cartas"></Link> */}
               <Link to={`/cards/mis-cartas`}>
@@ -134,13 +134,13 @@ const SubMenuCard = () => {
                   custom={key + 1}
                   className={`${
                     items[key % items.length]
-                  } flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-sm shadow-lg`}
+                  } flex-shrink-0  m-2 relative overflow-hidden rounded-lg max-w-sm sm:w-56   w-[45%] shadow-lg`}
                 >
                   <div
                     key={key}
                     className={`flex-shrink-0  relative overflow-hidden ${
                       items[key % items.length]
-                    } rounded-lg max-w-xs shadow-lg`}
+                    } rounded-lg max-w-xs  shadow-lg`}
                   >
                     {/* <Link style={{ textDecoration: "none" }} to="/cards/mis-cartas"></Link> */}
                     <Link to={`/cards/${category.name}`}>

@@ -1,10 +1,10 @@
 import React from "react";
 import "./styles/Loader.css";
-const Loader = () => {
+const Loader = ({ pos }) => {
   // console.log(styles);
   return (
     <>
-      <div className="flex justify-center ">
+      <div className={`flex justify-center ${pos}`}>
         <div className="loader-wrapper-1">
           <div className="loader-1">
             <div className="loader-1 loader-inner-1"></div>
