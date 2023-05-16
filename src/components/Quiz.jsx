@@ -9,7 +9,6 @@ import { toast } from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import OutsideClickHandler from "react-outside-click-handler";
 import arrayShuffle from "array-shuffle";
-import correctSound from "../media/correct.mp3";
 
 const Quiz = () => {
   const location = useLocation();
@@ -211,7 +210,7 @@ const Quiz = () => {
                   <p className="text-xl">
                     Obtuviste una calificacion de{" "}
                     <span className="badge text-lg p-3 badge-success font-medium">
-                      {contCorrects}/{cards.length}
+                      {((contCorrects / cards.length) * 100).toFixed(1)}%
                     </span>{" "}
                     .
                   </p>

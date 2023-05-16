@@ -3,14 +3,16 @@ import AuthContext from "../context/AuthContext";
 import axios from "axios";
 import mySite from "./Domain";
 import FormCard2 from "./FormCard2";
-import { Toaster, toast } from "react-hot-toast";
-const urlImageCard = "https://res.cloudinary.com/tolumaster/image/upload/v1/";
-
+import { toast } from "react-hot-toast";
+import { useToggleList } from "../myHooks/Lists";
+import SearchEngine from "./SearchEngine";
 const ModifyCards = () => {
-  const [cards, setCards] = useState();
+  const [cards, setCards] = useState([]);
+  const { list, toggleList } = useToggleList();
   const { user } = useContext(AuthContext);
   const [toDelete, setToDelete] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [originalState, setOriginalState] = useState([]);
   const [cardToEdit, setCardToEdit] = useState({
     cardTitle: "",
     cardMeaning: "",
@@ -18,7 +20,6 @@ const ModifyCards = () => {
     cardImage: "",
   });
   const toggleToDelete = (card_id) => {
-    console.log(toDelete.includes(card_id));
     if (toDelete.includes(card_id)) {
       const updateToDelete = toDelete.filter((id) => id !== card_id);
       setToDelete(updateToDelete);
@@ -47,7 +48,7 @@ const ModifyCards = () => {
       .then((res) => {
         console.log(res);
         setCards(res.data.cards);
-        console.log(cards);
+        setOriginalState(res.data.cards);
       })
       .catch((err) => console.log(err));
   };
@@ -55,8 +56,15 @@ const ModifyCards = () => {
     getCards();
   }, []);
 
+  const sendLearned = () => {
+    console.log(list);
+  };
+
   return (
     <div>
+      <div className="p-5 sm:w-1/2 w-full mx-auto">
+        <SearchEngine originalState={originalState} changeState={setCards} />
+      </div>
       <div className="overflow-x-auto">
         <table className="table mb-12 table-zebra text-center w-full lg:w-1/2 mx-auto">
           <thead>
@@ -71,7 +79,10 @@ const ModifyCards = () => {
                 <tr
                   key={key}
                   data-theme=""
-                  onClick={() => toDelete.length > 0 && toggleToDelete(card.id)}
+                  onClick={() =>
+                    (toDelete.length > 0 && toggleToDelete(card.id)) ||
+                    (list.length > 0 && toggleList(card.id))
+                  }
                 >
                   <td>
                     <div className="font-bold">{card.cardTitle}</div>
@@ -88,6 +99,14 @@ const ModifyCards = () => {
                         type="checkbox"
                         checked={toDelete.includes(card.id) ? true : false}
                         className="checkbox checkbox-error mt-2"
+                      />
+                    )}
+                    {list.length > 0 && (
+                      <input
+                        readOnly
+                        type="checkbox"
+                        checked={list.includes(card.id) ? true : false}
+                        className="checkbox checkbox-success mt-2"
                       />
                     )}
                   </td>
@@ -113,10 +132,32 @@ const ModifyCards = () => {
                       <svg
                         viewBox="0 0 1024 1024"
                         fill="currentColor"
-                        className="w-9 h-9 text-red-600 cursor-pointer active:w-5 transition-all"
                         height="1em"
                         width="1em"
-                        onClick={() => toggleToDelete(card.id)}
+                        className={`w-9 h-9 ${
+                          list.includes(card.id)
+                            ? "text-teal-500"
+                            : "text-teal-900"
+                        }`}
+                        onClick={() =>
+                          toDelete.length === 0 && toggleList(card.id)
+                        }
+                      >
+                        <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm193.5 301.7l-210.6 292a31.8 31.8 0 01-51.7 0L318.5 484.9c-3.8-5.3 0-12.7 6.5-12.7h46.9c10.2 0 19.9 4.9 25.9 13.3l71.2 98.8 157.2-218c6-8.3 15.6-13.3 25.9-13.3H699c6.5 0 10.3 7.4 6.5 12.7z" />
+                      </svg>
+                      <svg
+                        viewBox="0 0 1024 1024"
+                        fill="currentColor"
+                        className={`w-9 h-9 ${
+                          toDelete.includes(card.id)
+                            ? "text-red-600"
+                            : "text-red-900"
+                        }  cursor-pointer active:w-5 transition-all`}
+                        height="1em"
+                        width="1em"
+                        onClick={() =>
+                          list.length === 0 && toggleToDelete(card.id)
+                        }
                       >
                         <path d="M864 256H736v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zm-200 0H360v-72h304v72z" />
                       </svg>
@@ -140,6 +181,26 @@ const ModifyCards = () => {
               width="1em"
             >
               <path d="M864 256H736v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zm-200 0H360v-72h304v72z" />
+            </svg>
+          </button>
+        </div>
+        <div
+          className={`fixed  w-1/2 left-1/2 text-center  -translate-x-1/2 ${
+            list.length > 0 ? "bottom-0" : "-bottom-16"
+          }   transition-all duration-200`}
+        >
+          <button
+            className="btn btn-success w-3/4 mx-auto"
+            onClick={sendLearned}
+          >
+            <svg
+              viewBox="0 0 1024 1024"
+              fill="currentColor"
+              height="1em"
+              width="1em"
+              className="w-9 h-9"
+            >
+              <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm193.5 301.7l-210.6 292a31.8 31.8 0 01-51.7 0L318.5 484.9c-3.8-5.3 0-12.7 6.5-12.7h46.9c10.2 0 19.9 4.9 25.9 13.3l71.2 98.8 157.2-218c6-8.3 15.6-13.3 25.9-13.3H699c6.5 0 10.3 7.4 6.5 12.7z" />
             </svg>
           </button>
         </div>

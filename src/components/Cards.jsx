@@ -29,6 +29,7 @@ const Cards = () => {
     cardMeaning: "",
     image: "",
   });
+
   const navigate = useNavigate();
   const audioRef = useRef();
   const paramsUrl = useParams();
@@ -50,7 +51,7 @@ const Cards = () => {
       ? (url = `${mySite}usercards/${user.user_id}`)
       : (url = `${mySite}cards/${paramsUrl.section}`);
     axios.get(url).then((res) => {
-      setCards(res.data);
+      setCards(res.data.cards);
     });
   };
   useEffect(() => {
@@ -66,7 +67,6 @@ const Cards = () => {
   };
 
   const changeSwiper = () => {
-    console.log(swiperState);
     if (swiperState.effect === "cards") {
       localStorage.setItem(
         "swiper-state",
@@ -145,16 +145,15 @@ const Cards = () => {
           ]}
         >
           {/* <CardTuto></CardTuto> */}
-          {cards && cards.cards && cards.cards.length === 0 && (
-            <div>Nada aqui</div>
-          )}
-          {!cards.cards ? (
+          {cards && cards && cards.length === 0 && <div>Nada aqui</div>}
+          {!cards ? (
             <Loader pos={"-mt-28"} />
           ) : (
-            cards.cards.map((card) => {
+            cards.map((card) => {
               // console.log(cards);
               return (
                 <SwiperSlide
+                  // onChange={() => console.log(card)}
                   style={{
                     borderColor: "white",
                     backgroundImage: "url(" + card.image + ")",
@@ -178,9 +177,6 @@ const Cards = () => {
                     >
                       {/* // TODO check how works on mobile  */}
                       <svg
-                        onClick={() => {
-                          handleAudio(card.cardSound);
-                        }}
                         viewBox="0 0 500 1000"
                         fill="currentColor"
                         height="1em"
@@ -213,7 +209,7 @@ const Cards = () => {
             onClick={() =>
               navigate("/test", {
                 state: {
-                  cards: cards.cards,
+                  cards: cards,
                   section:
                     paramsUrl.section === "mis-cartas"
                       ? "Mis cartas"
@@ -231,10 +227,10 @@ const Cards = () => {
           setCardData={setCardData}
           cardData={cardData}
           handleOpen={setModalIsOpen}
+          cards={cards}
           setCards={setCards}
-          cards={cards.cards}
         />
-        {/* {cards.cards && !cards.cards.length > 0 && (
+        {/* {cards && !cards.length > 0 && (
           <div>Para generar un quiz agrega tus cartas </div>
         )} */}
       </div>

@@ -17,7 +17,14 @@ const customStyles = {
   },
   overlay: { zIndex: 999, backgroundColor: "#18191ab1" },
 };
-const FormCard2 = ({ cardData, setCardData, isOpen, handleOpen }) => {
+const FormCard2 = ({
+  cardData,
+  setCardData,
+  isOpen,
+  handleOpen,
+  cards,
+  setCards,
+}) => {
   const navigate = useNavigate();
   const [fileName, setFileName] = useState("");
   const [imageType, setImageType] = useState("file");
@@ -37,8 +44,9 @@ const FormCard2 = ({ cardData, setCardData, isOpen, handleOpen }) => {
           .then((res) => {
             if (res.status === 200) {
               toast.success("Enviado con éxito!");
-              console.log(cardData);
-              // setCards([...cards, cardData]);
+              // console.log(cardData);
+
+              setCards([cardData, ...cards]);
               setTimeout(() => {
                 handleOpen(false);
               }, 500);
@@ -64,6 +72,9 @@ const FormCard2 = ({ cardData, setCardData, isOpen, handleOpen }) => {
     }
   };
 
+  useEffect(() => {
+    // setCards(["xd"]);
+  }, []);
   return (
     <Modal
       className="modal-form-card w-[90%] md:w-96 mx-auto mt-44"

@@ -45,16 +45,7 @@ const SubMenuCard = () => {
   ];
 
   useEffect(() => {
-    const storedCategories = JSON.parse(localStorage.getItem("categories"));
-    if (
-      storedCategories &&
-      storedCategories.categories &&
-      storedCategories.categories.length > 0
-    ) {
-      setCategories(storedCategories);
-    } else {
-      fetchData();
-    }
+    fetchData();
   }, []);
   return (
     <div>
