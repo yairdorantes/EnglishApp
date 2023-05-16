@@ -22,6 +22,7 @@ from .views import (
     CategoryView,
     VerbsView,
     DeleteCard,
+    LearnCard,
 )
 
 from rest_framework.routers import DefaultRouter
@@ -53,6 +54,11 @@ urlpatterns = [
     path("increase/<int:id>", IncreaseScore.as_view(), name="increase score"),
     path("verbs/<int:user>", csrf_exempt(VerbsView.as_view()), name="user verbs"),
     path("verbs", csrf_exempt(VerbsView.as_view()), name="user verbs"),
+    path(
+        "learn/<int:user_id>",
+        csrf_exempt(LearnCard.as_view()),
+        name="learn card",
+    ),
     path("", include(router.urls)),
 ]
 # khk

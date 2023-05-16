@@ -7,6 +7,7 @@ from .models import (
     CategoriaPost,
     Post,
     VerbsModel,
+    LearnedCards,
 )
 from django.contrib.auth.admin import UserAdmin
 
@@ -37,4 +38,6 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(UserModel)
-admin.site.register([Cards, CategoriaPost, Post, Comment, CategoriaCard, VerbsModel])
+admin.site.register(
+    [Cards, CategoriaPost, Post, Comment, CategoriaCard, VerbsModel, LearnedCards]
+)

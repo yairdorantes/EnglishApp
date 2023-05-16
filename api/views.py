@@ -1,13 +1,10 @@
-from dbm import error
 import json
 from django.views import View
-from .models import Cards, Comment, Post, UserModel, CategoriaCard, VerbsModel
+from .models import Cards, Post, UserModel, CategoriaCard, VerbsModel, LearnedCards
 from rest_framework import viewsets
 from .serializers import PostSerializer
 from django.http.response import JsonResponse
 from django.http import HttpResponse
-
-# Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
@@ -18,26 +15,13 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
-
-# from time import sleep
 import base64
 from django.core.files.base import ContentFile
-
-# import openai
 import random
-import redis
 from gtts import gTTS
 import base64
 from io import BytesIO
-import os
 
-# jaja
-
-r = redis.Redis(
-    host="containers-us-west-177.railway.app",
-    port=6091,
-    password="wBW5LUEzyADNvF1K8thZ",
-)
 
 User = get_user_model()
 # print(os.environ["OPEN_AI_KEY"],"loli")
@@ -201,7 +185,8 @@ class cardView(View):
                 data = {"message": " no cards found"}
             return JsonResponse(data)
         if id > 0:
-            cards = list(Cards.objects.filter(owner_id=id).values())
+            # cards = list(Cards.objects.filter(owner_id=id).values())
+            cards = list(Cards.objects.filter(owner_id=id, is_learned=False).values())
             if len(cards) > 0:
                 random.shuffle(cards)
 
@@ -212,9 +197,12 @@ class cardView(View):
 
         else:
             cards = list(Cards.objects.values())
+            cards2 = list(Cards.objects.filter(is_learned=False).values())
+            print(cards2)
             if len(cards) > 0:
                 random.shuffle(cards)
-                data = {"message": "success", "cards": cards}
+
+                data = {"message": "success", "cards": cards2}
             else:
                 data = {"message": "card not found"}
             # sleep(1.3)
@@ -256,6 +244,28 @@ class cardView(View):
         card_to_edit.image = jd["image"]
         card_to_edit.save()
         return HttpResponse("oki", status=200)
+
+
+class LearnCard(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        cards = Cards.objects.filter(owner_id=1)
+
+        list = [1, 2, 3]
+
+        return HttpResponse(status=200)
+
+    def post(self, request, user_id):
+        jd = json.loads(request.body)
+        for card_id in jd["learned_list"]:
+            LearnedCards.objects.create(owner_id=user_id, card_learned_id=card_id)
+            card = Cards.objects.get(id=card_id)
+            card.is_learned = True
+            card.save()
+        return HttpResponse("ok", status=200)
 
 
 class GetPostView(View):

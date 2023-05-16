@@ -1,3 +1,5 @@
+from ast import mod
+from pyexpat import model
 from django.db import models
 
 # Create your models here.
@@ -55,12 +57,25 @@ class Cards(models.Model):
     cardSound = models.TextField(verbose_name="Sound Src", blank=True, null=True)
 
     image = models.TextField(verbose_name="Image", blank=True, null=True)
+    is_learned = models.BooleanField(default=False, verbose_name="Learned", blank=True)
 
     class Meta:
         ordering = ["-id"]
 
     def __str__(self):
         return self.cardTitle
+
+
+class LearnedCards(models.Model):
+    card_learned = models.ForeignKey(
+        Cards, on_delete=models.CASCADE, null=True, blank=True
+    )
+    owner = models.ForeignKey(
+        UserModel, on_delete=models.CASCADE, null=True, blank=True
+    )
+
+    def __str__(self) -> str:
+        return f"{self.card_learned.cardTitle} - {self.owner.username}"
 
 
 # ak
