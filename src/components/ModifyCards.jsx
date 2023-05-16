@@ -58,6 +58,16 @@ const ModifyCards = () => {
 
   const sendLearned = () => {
     console.log(list);
+    axios
+      .post(`${mySite}learn/${user.user_id}`, { learned_list: list })
+      .then((res) => {
+        console.log(res);
+        res.status === 200 && toast.success("Exito!");
+      })
+      .catch((err) => {
+        toast.error("ops algo salió mal");
+        console.log("xd");
+      });
   };
 
   return (

@@ -14,6 +14,7 @@ import MyVerbs from "../components/MyVerbs";
 import FormVerb from "../components/FormVerb";
 import FormCard2 from "../components/FormCard2";
 import ModifyCards from "../components/ModifyCards";
+import LearnedWords from "../components/LearnedWords";
 const Routers = () => {
   return (
     <AuthProvider>
@@ -33,6 +34,7 @@ const Routers = () => {
           <Route path="/test" element={<Quiz />}></Route>
           <Route path="/my-verbs/add" element={<FormVerb />} />
           <Route path="/addCard" element={<FormCard2 />} />
+          <Route path="/learned" element={<LearnedWords />} />
         </Route>
       </Routes>
     </AuthProvider>
