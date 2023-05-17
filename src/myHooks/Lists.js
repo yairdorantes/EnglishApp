@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export function useToggleList() {
-  const [list, setList] = useState([]);
+export function useToggleList(intialList = []) {
+  const [list, setList] = useState(intialList);
   const toggleList = (item) => {
     if (list.includes(item)) {
       const updateList = list.filter((id) => id !== item);
@@ -13,5 +13,6 @@ export function useToggleList() {
   return {
     list,
     toggleList,
+    setList,
   };
 }

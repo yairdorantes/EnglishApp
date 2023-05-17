@@ -127,7 +127,7 @@ const NewMenu = () => {
                       Download
                       <div className="tooltip-arrow" data-popper-arrow></div>
                     </div>
-                    <Link to="/posts">
+                    {/* <Link to="/posts">
                       <button
                         type="button"
                         onClick={() => setShowMenu(false)}
@@ -138,7 +138,7 @@ const NewMenu = () => {
                         <img src={blog} alt="" className="w-3/4" />
                         <span className="sr-only">Copy</span>
                       </button>
-                    </Link>
+                    </Link> */}
 
                     <button
                       type="button"
