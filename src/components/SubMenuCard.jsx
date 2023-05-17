@@ -51,8 +51,8 @@ const SubMenuCard = () => {
     <div>
       <NewMenu />
 
-      <div className="w-screen h-screen bg-base-200 ">
-        <div className=" flex flex-wrap justify-center sm:pt-28 pt-0">
+      <div className="w-screen h-screen bg-base-200  ">
+        <div className=" flex flex-wrap  justify-center sm:pt-28 pt-0 pb-20">
           <motion.div
             variants={variants}
             initial="hidden"
