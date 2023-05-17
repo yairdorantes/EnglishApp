@@ -251,20 +251,25 @@ class LearnCard(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    def get(self, request, *args, **kwargs):
-        cards = Cards.objects.filter(owner_id=1)
-
-        list = [1, 2, 3]
-
-        return HttpResponse(status=200)
+    def get(self, request, user_id):
+        cards = list(Cards.objects.filter(owner_id=user_id, is_learned=True).values())
+        my_list = [card["id"] for card in cards]
+        return JsonResponse({"cards": cards, "list": my_list})
 
     def post(self, request, user_id):
         jd = json.loads(request.body)
-        for card_id in jd["learned_list"]:
-            LearnedCards.objects.create(owner_id=user_id, card_learned_id=card_id)
-            card = Cards.objects.get(id=card_id)
-            card.is_learned = True
-            card.save()
+        if "learned_list" in jd:
+            for card_id in jd["learned_list"]:
+                LearnedCards.objects.create(owner_id=user_id, card_learned_id=card_id)
+                card = Cards.objects.get(id=card_id)
+                card.is_learned = True
+                card.save()
+        elif "unlearn" in jd:
+            lista = jd["unlearn"]
+            Cards.objects.filter(id__in=lista, owner_id=user_id).update(
+                is_learned=False
+            )
+            LearnedCards.objects.filter(card_learned__in=lista).delete()
         return HttpResponse("ok", status=200)
 
 
