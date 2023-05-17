@@ -186,9 +186,13 @@ const NewMenu = () => {
               data-dial-trigger="hover"
               aria-controls="speed-dial-menu-hover"
               aria-expanded="false"
-              className="flex  items-center  justify-center text-white rounded-full w-14 h-14 hover:bg-blue-800  bg-secondary-focus focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800 active:scale-75 active:rotate-180 transition-all"
+              className="flex  items-center group justify-center text-white rounded-full w-14 h-14 hover:bg-blue-800  bg-secondary-focus focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800 group transition-all"
             >
-              <img className="w-6" src={iconMenu} alt="" />
+              <img
+                className="w-6 group-active:w-3 group-active:rotate-45   transition-all"
+                src={iconMenu}
+                alt=""
+              />
               <span className="sr-only">Open actions menu</span>
             </button>
           </div>
