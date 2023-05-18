@@ -187,6 +187,10 @@ const Cards = () => {
                       onClick={() => {
                         handleAudio(card.cardSound);
                       }}
+                      onTouchStart={(event) => {
+                        event.preventDefault(); // Prevent the default touch behavior
+                        handleAudio(card.cardSound);
+                      }}
                     >
                       {/* // TODO check how works on mobile  */}
                       <svg
@@ -230,7 +234,7 @@ const Cards = () => {
                 },
               })
             }
-            className="btn bg-blue-700 w-36"
+            className="btn bg-blue-700 w-36 "
           >
             Quiz
           </button>
