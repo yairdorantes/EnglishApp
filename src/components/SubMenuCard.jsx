@@ -7,6 +7,7 @@ import mySite from "./Domain";
 import Loader from "./Loader";
 import NewMenu from "./NewMenu";
 import { motion, AnimatePresence } from "framer-motion";
+import Loader2 from "./Loader2";
 
 const variants = {
   hidden: {
@@ -50,8 +51,10 @@ const SubMenuCard = () => {
   return (
     <div>
       <NewMenu />
-
-      <div className="w-screen h-screen bg-base-200  ">
+      <div className="w-screen h-screen bg-base-200 ">
+        <div className="text-4xl font-Anton absolute top-7  left-1/2 -translate-x-1/2  text-white hidden md:block ">
+          EnglishApp
+        </div>
         <div className=" flex flex-wrap  justify-center sm:pt-28 pt-0 pb-20">
           <motion.div
             variants={variants}

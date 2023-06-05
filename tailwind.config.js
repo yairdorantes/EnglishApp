@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     fontFamily: {
       display: ["Smokum", "cursive"],
+      Anton: ["Anton", "sans-serif"],
     },
     extend: {},
   },

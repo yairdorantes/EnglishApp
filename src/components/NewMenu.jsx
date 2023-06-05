@@ -4,7 +4,8 @@ import trofeo from "../media/trofeo.png";
 import iconMenu from "../media/menu1.png";
 import user from "../media/user.png";
 import bugReport from "../media/bug.png";
-import verbs from "../media/verbs.png";
+import premiumImg from "../media/prem.png";
+// import verbs from "../media/verbs.png";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -107,7 +108,7 @@ const NewMenu = () => {
                       </button>
                     </Link>
 
-                    <Link to="/my-verbs">
+                    {/* <Link to="/my-verbs">
                       <button
                         type="button"
                         data-tooltip-target="tooltip-download"
@@ -118,7 +119,7 @@ const NewMenu = () => {
                         <img src={verbs} alt="" className="w-3/4" />
                         <span className="sr-only">Download</span>
                       </button>
-                    </Link>
+                    </Link> */}
                     <div
                       id="tooltip-download"
                       role="tooltip"
@@ -153,6 +154,18 @@ const NewMenu = () => {
                       <img src={user} alt="" className="w-3/4" />
                       <span className="sr-only">Share</span>
                     </button>
+                    <Link to="/price">
+                      <button
+                        type="button"
+                        data-tooltip-target="tooltip-download"
+                        data-tooltip-placement="left"
+                        onClick={() => setShowMenu(false)}
+                        className="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400"
+                      >
+                        <img src={premiumImg} alt="" className="w-3/4" />
+                        <span className="sr-only">Download</span>
+                      </button>
+                    </Link>
                     <button
                       type="button"
                       data-tooltip-target="tooltip-share"

@@ -39,8 +39,8 @@ const LearnedWords = () => {
   }, []);
 
   return (
-    <div>
-      <div className="alert shadow-lg w-1/2 mx-auto mb-10">
+    <div className="">
+      <div className="alert border mx-auto shadow-lg w-full lg:w-1/2 mt-5 mb-10">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ const LearnedWords = () => {
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             ></path>
           </svg>
-          <span>
+          <span className="">
             {" "}
             Aqui se muestran las palabras aprendidas, si quieres repazar de
             nuevo desmarca la casilla

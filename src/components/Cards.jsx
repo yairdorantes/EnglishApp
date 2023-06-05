@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import "./styles/cardStyles.css";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Loader2 from "./Loader2";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import "./styles/stylesCards.css";
@@ -14,7 +15,6 @@ import {
   EffectCube,
 } from "swiper";
 import iconAdd from "../media/add.png";
-import Loader from "./Loader";
 import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import mySite from "./Domain";
@@ -37,7 +37,7 @@ const Cards = () => {
   const [isActive, setIsActive] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [cards, setCards] = useState([]);
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
   // const [IsAutoSlide, setIsAutoSlide] = useState(true);
   const [swiperState, setSwiperState] = useState(() =>
     localStorage.getItem("swiper-state")
@@ -46,13 +46,20 @@ const Cards = () => {
   );
 
   const fetchAPi = () => {
-    setLoader(true);
     paramsUrl.section === "mis-cartas"
       ? (url = `${mySite}usercards/${user.user_id}`)
       : (url = `${mySite}cards/${paramsUrl.section}`);
-    axios.get(url).then((res) => {
-      setCards(res.data.cards);
-    });
+    setLoader(true);
+    axios
+      .get(url)
+      .then((res) => {
+        setCards(res.data.cards);
+        console.log(res.data.cards);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => setLoader(false));
   };
   useEffect(() => {
     fetchAPi();
@@ -81,7 +88,6 @@ const Cards = () => {
   return (
     <>
       <NewMenu />
-
       <div className="all-cards">
         <div className="flex gap-3 justify-center ">
           <button className="btn" onClick={changeSwiper}>
@@ -120,7 +126,7 @@ const Cards = () => {
                     viewBox="0 0 1024 1024"
                     fill="currentColor"
                     height="1em"
-                    // className="w-8 h-8"
+                    className="w-7 h-7"
                     width="1em"
                   >
                     <path d="M257.7 752c2 0 4-.2 6-.5L431.9 722c2-.4 3.9-1.3 5.3-2.8l423.9-423.9a9.96 9.96 0 000-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2a33.5 33.5 0 009.4 29.8c6.6 6.4 14.9 9.9 23.8 9.9zm67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z" />
@@ -130,39 +136,42 @@ const Cards = () => {
             </div>
           )}
         </div>
-        <Swiper
-          keyboard={true}
-          mousewheel={true}
-          className={`relative ${
-            swiperState.effect === "cards"
-              ? "w-[270px] h-[400px] mt-24"
-              : "p-10 h-[400px] w-[400px]"
-          }  `}
-          loop
-          effect={swiperState.effect}
-          spaceBetween={50}
-          // autoplay={
-          //   IsAutoSlide && {
-          //     delay: 500,
-          //     disableOnInteraction: false,
-          //   }
-          // }
-          modules={[
-            EffectCards,
-            EffectFlip,
-            Mousewheel,
-            Pagination,
-            Keyboard,
-            Autoplay,
-            EffectCube,
-          ]}
-        >
-          {/* <CardTuto></CardTuto> */}
-          {cards && cards && cards.length === 0 && <div>Nada aqui</div>}
-          {!cards ? (
-            <Loader pos={"-mt-28"} />
-          ) : (
-            cards.map((card) => {
+        {loader && (
+          <Loader2
+            style={
+              "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            }
+          />
+        )}
+        {cards && cards.length > 0 && (
+          <Swiper
+            keyboard={true}
+            mousewheel={true}
+            className={`relative ${
+              swiperState.effect === "cards"
+                ? "w-[270px] h-[400px] mt-24"
+                : "p-10 h-[400px] w-[400px]"
+            }  `}
+            loop
+            effect={swiperState.effect}
+            spaceBetween={50}
+            // autoplay={
+            //   IsAutoSlide && {
+            //     delay: 500,
+            //     disableOnInteraction: false,
+            //   }
+            // }
+            modules={[
+              EffectCards,
+              EffectFlip,
+              Mousewheel,
+              Pagination,
+              Keyboard,
+              Autoplay,
+              EffectCube,
+            ]}
+          >
+            {cards.map((card) => {
               // console.log(cards);
               return (
                 <SwiperSlide
@@ -207,12 +216,51 @@ const Cards = () => {
                   </div>
                 </SwiperSlide>
               );
-            })
-          )}
-          <audio autoPlay src={audio} ref={audioRef} />
-        </Swiper>
-        {paramsUrl.section === "mis-cartas" && (
-          <div className="container-icon-add">
+            })}
+            <audio autoPlay src={audio} ref={audioRef} />
+          </Swiper>
+        )}
+        {paramsUrl.section === "mis-cartas" && !loader && (
+          <div className={`container-icon-add ${!loader && !cards && "mt-96"}`}>
+            {!cards && (
+              <div className="text-left w-3/4 lg:w-1/4 mx-auto">
+                <div
+                  id="alert-additional-content-1"
+                  className="p-4 mb-4 text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
+                  role="alert"
+                >
+                  <div className="flex items-center">
+                    <svg
+                      aria-hidden="true"
+                      className="w-5 h-5 mr-2"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                    <h3 className="text-lg font-medium">Nada por aquí</h3>
+                  </div>
+                  <div className="mt-2 mb-4 text-sm">
+                    Parece que no has agregado cartas todavia, agregalas dando
+                    clic al siguiente boton
+                  </div>
+                  <div className="flex">
+                    <button
+                      type="button"
+                      onClick={() => setModalIsOpen(true)}
+                      className="text-white bg-blue-800 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-200 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                      Agregar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
             <img
               onClick={() => setModalIsOpen(!modalIsOpen)}
               className="icon-add mx-auto"
@@ -222,22 +270,24 @@ const Cards = () => {
           </div>
         )}
         <div className="cont-btn-review flex justify-center flex-col gap-5 items-center">
-          <button
-            onClick={() =>
-              navigate("/test", {
-                state: {
-                  cards: cards,
-                  section:
-                    paramsUrl.section === "mis-cartas"
-                      ? "Mis cartas"
-                      : paramsUrl.section,
-                },
-              })
-            }
-            className="btn bg-blue-700 w-36 "
-          >
-            Quiz
-          </button>
+          {cards && cards.length > 4 && (
+            <button
+              onClick={() =>
+                navigate("/test", {
+                  state: {
+                    cards: cards,
+                    section:
+                      paramsUrl.section === "mis-cartas"
+                        ? "Mis cartas"
+                        : paramsUrl.section,
+                  },
+                })
+              }
+              className="btn bg-blue-700 w-36 "
+            >
+              Quiz
+            </button>
+          )}
         </div>
         <FormCard2
           isOpen={modalIsOpen}
