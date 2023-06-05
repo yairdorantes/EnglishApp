@@ -40,6 +40,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://yairmaster.ddns.net",
     "http://localhost:3000",
     "https://eloquent-torte-3124af.netlify.app",
+    "http://localhost:5174",
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS = True

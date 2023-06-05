@@ -1,4 +1,5 @@
 import json
+from time import sleep
 from django.views import View
 from .models import Cards, Post, UserModel, CategoriaCard, VerbsModel, LearnedCards
 from rest_framework import viewsets
@@ -21,6 +22,7 @@ import random
 from gtts import gTTS
 import base64
 from io import BytesIO
+import stripe
 
 
 User = get_user_model()
@@ -170,6 +172,7 @@ class cardView(View):
 
     # k
     def get(self, request, section="", id=0):
+        # sleep(2)
         if section != "":
             cards = list(
                 Cards.objects.filter(
@@ -358,4 +361,25 @@ class userToPremium(View):
         return JsonResponse(data)
 
 
-# This is your test secret API key.
+stripe.api_key = "sk_test_51KjBqNA9KCn8yVMONc3gFAYwrG6HbwHVDeQ3sxLolr9K5iJHSXRmm8FXpkRFtJp7n5WWCjVjmCOlyHYObMnSVRlL00Y6KfPvVR"
+
+
+# the api key is the secret key (not public key)
+class CheckOutStripeView(View):
+    def post(self, request):
+        jd = json.loads(request.body)
+        try:
+            payment_intent = stripe.PaymentIntent.create(
+                amount=jd["amount"],  # Amount in cents
+                currency="mxn",
+                description="Example payment",
+                payment_method=jd["id"],
+                confirm=True,  # Confirm the payment intent immediately
+            )
+            if payment_intent.status == "succeeded":
+                return HttpResponse("success!", status=200)
+            else:
+                return HttpResponse("payment unsuccessful", status=500)
+        except Exception as e:
+            print(e)
+            return HttpResponse("no payment created", status=500)
