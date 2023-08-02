@@ -275,7 +275,7 @@ const Cards = () => {
               </div>
             )}
             {userPremiumState ||
-              (cards.length <= 7 && (
+              (cards.length < 7 && (
                 <img
                   onClick={() => setModalIsOpen(!modalIsOpen)}
                   className="icon-add mx-auto"
