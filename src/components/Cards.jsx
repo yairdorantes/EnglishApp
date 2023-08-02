@@ -274,15 +274,25 @@ const Cards = () => {
                 </div>
               </div>
             )}
-            {userPremiumState ||
-              (cards.length < 7 && (
+            {userPremiumState ? (
+              // Render the image when userPremiumState is true
+              <img
+                onClick={() => setModalIsOpen(!modalIsOpen)}
+                className="icon-add mx-auto"
+                src={iconAdd}
+                alt=""
+              />
+            ) : (
+              cards.length < 7 && (
+                // Render the image when userPremiumState is false and cards.length is less than 7
                 <img
                   onClick={() => setModalIsOpen(!modalIsOpen)}
                   className="icon-add mx-auto"
                   src={iconAdd}
                   alt=""
                 />
-              ))}
+              )
+            )}
           </div>
         )}
         <div className="cont-btn-review flex justify-center flex-col gap-5 items-center">
