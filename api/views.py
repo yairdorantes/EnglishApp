@@ -1,4 +1,5 @@
 import json
+from pickle import TRUE
 from time import sleep
 from django.views import View
 from .models import Cards, Post, UserModel, CategoriaCard, VerbsModel, LearnedCards
@@ -189,7 +190,16 @@ class cardView(View):
             return JsonResponse(data)
         if id > 0:
             # cards = list(Cards.objects.filter(owner_id=id).values())
-            cards = list(Cards.objects.filter(owner_id=id, is_learned=False).values())
+            user = UserModel.objects.get(id=id)
+            if user.premium == True:
+                cards = list(
+                    Cards.objects.filter(owner_id=id, is_learned=False).values()
+                )
+            else:
+                cards = list(
+                    Cards.objects.filter(owner_id=id, is_learned=False).values()
+                )[:7]
+
             if len(cards) > 0:
                 random.shuffle(cards)
 
@@ -368,6 +378,7 @@ stripe.api_key = "sk_test_51KjBqNA9KCn8yVMONc3gFAYwrG6HbwHVDeQ3sxLolr9K5iJHSXRmm
 class CheckOutStripeView(View):
     def post(self, request):
         jd = json.loads(request.body)
+        user_id = jd["user_id"]
         try:
             payment_intent = stripe.PaymentIntent.create(
                 amount=jd["amount"],  # Amount in cents
@@ -377,6 +388,9 @@ class CheckOutStripeView(View):
                 confirm=True,  # Confirm the payment intent immediately
             )
             if payment_intent.status == "succeeded":
+                user = UserModel.objects.get(id=user_id)
+                user.premium = True
+                user.save()
                 return HttpResponse("success!", status=200)
             else:
                 return HttpResponse("payment unsuccessful", status=500)
