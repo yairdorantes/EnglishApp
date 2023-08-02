@@ -38,6 +38,7 @@ const Cards = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [cards, setCards] = useState([]);
   const [loader, setLoader] = useState(true);
+  const [userPremiumState, setUserPremiumState] = useState(false);
   // const [IsAutoSlide, setIsAutoSlide] = useState(true);
   const [swiperState, setSwiperState] = useState(() =>
     localStorage.getItem("swiper-state")
@@ -61,8 +62,20 @@ const Cards = () => {
       })
       .finally(() => setLoader(false));
   };
+  const getUserInfo = () => {
+    axios
+      .get(`${mySite}users/${user.user_id}`)
+      .then((res) => {
+        console.log(res.data, "herr");
+        setUserPremiumState(res.data.user.premium);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     fetchAPi();
+    getUserInfo();
   }, []);
 
   const handleDisplay = () => setIsActive(!isActive);
@@ -261,16 +274,19 @@ const Cards = () => {
                 </div>
               </div>
             )}
-            <img
-              onClick={() => setModalIsOpen(!modalIsOpen)}
-              className="icon-add mx-auto"
-              src={iconAdd}
-              alt=""
-            />
+            {userPremiumState ||
+              (cards.length <= 7 && (
+                <img
+                  onClick={() => setModalIsOpen(!modalIsOpen)}
+                  className="icon-add mx-auto"
+                  src={iconAdd}
+                  alt=""
+                />
+              ))}
           </div>
         )}
         <div className="cont-btn-review flex justify-center flex-col gap-5 items-center">
-          {cards && cards.length > 4 && (
+          {cards && cards.length > 4 && userPremiumState && (
             <button
               onClick={() =>
                 navigate("/test", {
