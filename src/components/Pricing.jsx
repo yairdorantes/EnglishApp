@@ -28,7 +28,7 @@ const Pricing = () => {
                 clipRule="evenodd"
               ></path>
             </svg>
-            <span>Agregar más de 10 cartas, ¡sin limite!</span>
+            <span>Agregar más de 7 cartas, ¡sin limite!</span>
           </li>
           <li className="flex items-center space-x-3">
             <svg

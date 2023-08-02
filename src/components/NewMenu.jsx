@@ -2,17 +2,20 @@ import cards from "../media/cards.png";
 import blog from "../media/blog.png";
 import trofeo from "../media/trofeo.png";
 import iconMenu from "../media/menu1.png";
-import user from "../media/user.png";
+import userImage from "../media/user.png";
 import bugReport from "../media/bug.png";
 import premiumImg from "../media/prem.png";
 // import verbs from "../media/verbs.png";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import NewLeaderBoard from "./NewLeaderBoard";
 import OutsideClickHandler from "react-outside-click-handler";
 import UserInfo from "./UserInfo";
 import Modal from "react-modal";
+import axios from "axios";
+import mySite from "./Domain";
+import AuthContext from "../context/AuthContext";
 
 const customStyles = {
   content: {
@@ -25,13 +28,32 @@ const customStyles = {
   overlay: { zIndex: 999, backgroundColor: "rgba(0, 0, 0, 0.884)" },
 };
 const NewMenu = () => {
+  const { user } = useContext(AuthContext);
+
   // let { showLeaderBoard } = useContext(AuthContext);
   const [showMenu, setShowMenu] = useState(false);
   const [showLeaderBoard, setShowLeaderBoard] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(false);
   const handleUserInfo = () => setShowUserInfo(!showUserInfo);
+  const [userPremiumState, setUserPremiumState] = useState(false);
   const handleLeaderBoard = () => setShowLeaderBoard(!showLeaderBoard);
   const handleMenu = () => setShowMenu(!showMenu);
+
+  // .get(`${mySite}users/${user.user_id}`)
+  const getUserInfo = () => {
+    axios
+      .get(`${mySite}users/${user.user_id}`)
+      .then((res) => {
+        console.log(res.data, "herr");
+        setUserPremiumState(res.data.user.premium);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   return (
     <>
@@ -151,21 +173,23 @@ const NewMenu = () => {
                       }}
                       className="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400"
                     >
-                      <img src={user} alt="" className="w-3/4" />
+                      <img src={userImage} alt="" className="w-3/4" />
                       <span className="sr-only">Share</span>
                     </button>
-                    <Link to="/price">
-                      <button
-                        type="button"
-                        data-tooltip-target="tooltip-download"
-                        data-tooltip-placement="left"
-                        onClick={() => setShowMenu(false)}
-                        className="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400"
-                      >
-                        <img src={premiumImg} alt="" className="w-3/4" />
-                        <span className="sr-only">Download</span>
-                      </button>
-                    </Link>
+                    {!userPremiumState && (
+                      <Link to="/price">
+                        <button
+                          type="button"
+                          data-tooltip-target="tooltip-download"
+                          data-tooltip-placement="left"
+                          onClick={() => setShowMenu(false)}
+                          className="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400"
+                        >
+                          <img src={premiumImg} alt="" className="w-3/4" />
+                          <span className="sr-only">Download</span>
+                        </button>
+                      </Link>
+                    )}
                     <button
                       type="button"
                       data-tooltip-target="tooltip-share"
